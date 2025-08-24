@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+        'landing_subscriber = project_report.landing_subscriber:main',
         ],
     },
 )
