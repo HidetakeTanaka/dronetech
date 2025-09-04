@@ -20,7 +20,12 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+<<<<<<< HEAD
         'landing_subscriber = project_report.landing_subscriber:main',
+=======
+            'landing_subscriber = project_report.landing_subscriber:main',
+            'landing_controller = project_report.landing_controller:main',
+>>>>>>> 3644b06 (Created landing_controller and landing_subscriber but stuck)
         ],
     },
 )
