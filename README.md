@@ -1,4 +1,7 @@
-# Drone Technology SS2025
+# Drone Technology and Application SS2025
+
+As part of our coursework in drone and robotics engineering, we are building a quadcopter to learn and apply theoretical knowledge in a practical environment. The project involves three main stages: assembling the quadcopter hardware, configuring the flight systems, and programming it to perform a precision landing task on an ArUco marker. All experiments are conducted in the EOLab drone environment, which is maintained and prepared by the lab staff.
+
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
@@ -15,7 +18,7 @@
 | Top Board                         | –                                 | 1        |
 | Power Distribution Board (PDB)    | –                                 | 1        |
 | Buzzer                            | Active Buzzer Module              | 1        |
-| Radio Telemetry                   | Telem 02 (TX/RX)                  | 1        |
+| Radio Telemetry                   | Telem 02 (RX)                     | 1        |
 | GPS Module                        | –                                 | 1        |
 | Landing Legs                      | –                                 | 4        |
 
