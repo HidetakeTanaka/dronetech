@@ -1,10 +1,10 @@
 # Drone Technology SS2025
-# Section 1 – Drone Assembly
+## Section 1 – Drone Assembly
 
-## 1.1 Components List
+### 1.1 Components List
 
 
-## 1.2 Assembly Process
+### 1.2 Assembly Process
 
 ### Step 1 – Assemble the Frame
 - Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
