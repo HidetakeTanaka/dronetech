@@ -5,8 +5,6 @@ As part of our coursework in drone and robotics engineering, we are building a q
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
-## Table of Components
-
 | Component                         | Model / Type                      | Quantity |
 |-----------------------------------|-----------------------------------|----------|
 | Flight Controller                 | Pixhawk 2.4.8                     | 1        |
