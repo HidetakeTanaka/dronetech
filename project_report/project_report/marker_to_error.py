@@ -1,104 +1,102 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSDurabilityPolicy
 
 from std_msgs.msg import Bool
 from geometry_msgs.msg import Vector3
 from visualization_msgs.msg import MarkerArray
 
-def clamp(v, lo, hi): return max(lo, min(hi, v))
 
 class MarkerToError(Node):
     """
-    A simple bridge node that listens to
-      /protoflyer/detected_aruco_markers (MarkerArray),
-    estimates the error vector from the closest (or first) marker,
-    and publishes:
-      /protoflyer/eolab/precision_landing/visible (Bool)
-      /protoflyer/eolab/precision_landing/error   (Vector3)
-
-    The sign convention may differ depending on the environment,
-    so it can be inverted via parameters.
+    Subscribe to an ArUco marker topic (MarkerArray),
+    publish a boolean flag (visible) and a simple error vector (Vector3).
     """
+
     def __init__(self):
         super().__init__('marker_to_error')
 
-        # Input/output topics (can be remapped with --ros-args -r)
-        self.sub_topic = self.declare_parameter(
-            'markers_topic', '/protoflyer/detected_aruco_markers'
-        ).get_parameter_value().string_value
+        # Parameters
+        self.declare_parameter('markers_topic', '/protoflyer/detected_aruco_markers')
+        self.declare_parameter('visible_topic', '/protoflyer/eolab/precision_landing/visible')
+        self.declare_parameter('error_topic', '/protoflyer/eolab/precision_landing/error')
+        self.declare_parameter('flip_x', False)   # flip X-axis if needed
+        self.declare_parameter('flip_y', False)   # flip Y-axis if needed
+        self.declare_parameter('flip_z', False)   # flip Z-axis if needed
+        self.declare_parameter('scale', 1.0)      # scale factor for error values
 
-        self.pub_visible_topic = self.declare_parameter(
-            'visible_topic', '/protoflyer/eolab/precision_landing/visible'
-        ).get_parameter_value().string_value
+        self.markers_topic = self.get_parameter('markers_topic').get_parameter_value().string_value
+        self.visible_topic = self.get_parameter('visible_topic').get_parameter_value().string_value
+        self.error_topic   = self.get_parameter('error_topic').get_parameter_value().string_value
+        self.flip_x = self.get_parameter('flip_x').get_parameter_value().bool_value
+        self.flip_y = self.get_parameter('flip_y').get_parameter_value().bool_value
+        self.flip_z = self.get_parameter('flip_z').get_parameter_value().bool_value
+        self.scale  = self.get_parameter('scale').get_parameter_value().double_value
 
-        self.pub_error_topic = self.declare_parameter(
-            'error_topic', '/protoflyer/eolab/precision_landing/error'
-        ).get_parameter_value().string_value
+        # QoS profiles (match the detector publisher: RELIABLE + VOLATILE)
+        sub_qos = QoSProfile(depth=10)
+        sub_qos.reliability = QoSReliabilityPolicy.RELIABLE
+        sub_qos.durability  = QoSDurabilityPolicy.VOLATILE
 
-        # Sign inversion (to compensate camera vs control coordinate differences)
-        self.flip_x = bool(self.declare_parameter('flip_x', False).value)
-        self.flip_y = bool(self.declare_parameter('flip_y', False).value)
-        self.flip_z = bool(self.declare_parameter('flip_z', False).value)
-
-        # Scale factors (useful for pixel→meter conversion; keep 1.0 if already in meters)
-        self.scale_x = float(self.declare_parameter('scale_x', 1.0).value)
-        self.scale_y = float(self.declare_parameter('scale_y', 1.0).value)
-        self.scale_z = float(self.declare_parameter('scale_z', 1.0).value)
+        pub_qos = QoSProfile(depth=10)
+        pub_qos.reliability = QoSReliabilityPolicy.RELIABLE
+        pub_qos.durability  = QoSDurabilityPolicy.VOLATILE
 
         # Publishers
-        self.pub_visible = self.create_publisher(Bool, self.pub_visible_topic, 10)
-        self.pub_error   = self.create_publisher(Vector3, self.pub_error_topic, 10)
+        self.vis_pub = self.create_publisher(Bool, self.visible_topic, pub_qos)
+        self.err_pub = self.create_publisher(Vector3, self.error_topic, pub_qos)
 
         # Subscriber
-        self.sub = self.create_subscription(MarkerArray, self.sub_topic, self.cb, 10)
+        self.sub = self.create_subscription(MarkerArray, self.markers_topic, self.callback, sub_qos)
 
-        self.get_logger().info(f'[marker_to_error] sub: {self.sub_topic}')
-        self.get_logger().info(f'[marker_to_error] pub: visible→{self.pub_visible_topic} | error→{self.pub_error_topic}')
+        self.get_logger().info(
+            f"[marker_to_error] subscribed: {self.markers_topic}\n"
+            f"[marker_to_error] publishing: visible→{self.visible_topic}, error→{self.error_topic}"
+        )
 
-    def cb(self, msg: MarkerArray):
-        visible = Bool()
-        err = Vector3()
+        # throttle logs
+        self._last_log = self.get_clock().now()
 
-        if len(msg.markers) == 0:
-            visible.data = False
-            self.pub_visible.publish(visible)
-            # For error, we could keep the previous value,
-            # but here we output zero
-            err.x = 0.0; err.y = 0.0; err.z = 0.0
-            self.pub_error.publish(err)
-            return
+    def callback(self, msg: MarkerArray):
+        """
+        Callback for MarkerArray messages.
+        Takes the first marker's position and converts it into a simple error vector.
+        """
+        visible = len(msg.markers) > 0
+        ex = ey = ez = 0.0
 
-        # Here we simply take the first marker
-        m = msg.markers[0]
-        # Marker.pose is likely in camera coordinates [m] (environment-dependent)
-        x = m.pose.position.x * (-1.0 if self.flip_x else 1.0) * self.scale_x
-        y = m.pose.position.y * (-1.0 if self.flip_y else 1.0) * self.scale_y
-        z = m.pose.position.z * (-1.0 if self.flip_z else 1.0) * self.scale_z
+        if visible:
+            marker = msg.markers[0]
+            ex = float(marker.pose.position.x) * self.scale
+            ey = float(marker.pose.position.y) * self.scale
+            ez = float(marker.pose.position.z) * self.scale
 
-        # Controller expectation:
-        #   err.x = forward/backward (+ forward)
-        #   err.y = left/right (+ right)
-        #   err.z = altitude error (+ higher)
-        err.x = float(x)
-        err.y = float(y)
-        err.z = float(z)
+            if self.flip_x:
+                ex = -ex
+            if self.flip_y:
+                ey = -ey
+            if self.flip_z:
+                ez = -ez
 
-        visible.data = True
-        self.pub_visible.publish(visible)
-        self.pub_error.publish(err)
+        # publish results
+        self.vis_pub.publish(Bool(data=visible))
+        self.err_pub.publish(Vector3(x=ex, y=ey, z=ez))
 
-def main(args=None):
-    rclpy.init(args=args)
+        # log at 1 Hz
+        now = self.get_clock().now()
+        if (now - self._last_log).nanoseconds * 1e-9 > 1.0:
+            self.get_logger().info(f"visible={visible} error=({ex:.2f}, {ey:.2f}, {ez:.2f})")
+            self._last_log = now
+
+
+def main():
+    rclpy.init()
     node = MarkerToError()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

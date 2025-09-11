@@ -24,6 +24,7 @@ setup(
             'landing_subscriber = project_report.landing_subscriber:main',
             'landing_controller = project_report.landing_controller:main',
             'marker_to_error = project_report.marker_to_error:main',
+            'echo_manual_once  = project_report.echo_manual_once:main',  
         ],
     },
 )
