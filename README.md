@@ -2,7 +2,22 @@
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
+## Table of Components
 
+| Component                         | Model / Type                      | Quantity |
+|-----------------------------------|-----------------------------------|----------|
+| Flight Controller                 | Pixhawk 2.4.8                     | 1        |
+| Companion Computer                | –                                 | 1        |
+| Frame Arms                        | 2× 450FAC (red), 2× 450FAW (white)| 4        |
+| Motors                            | 2× CW, 2× CCW                     | 4        |
+| Propellers                        | 2× CW, 2× CCW                     | 4        |
+| ESC (Electronic Speed Controllers)| –                                 | 4        |
+| Top Board                         | –                                 | 1        |
+| Power Distribution Board (PDB)    | –                                 | 1        |
+| Buzzer                            | Active Buzzer Module              | 1        |
+| Radio Telemetry                   | Telem 02 (TX/RX)                  | 1        |
+| GPS Module                        | –                                 | 1        |
+| Landing Legs                      | –                                 | 4        |
 
 ### 1.2 Assembly Process
 
