@@ -1,6 +1,15 @@
 # Drone Technology and Application SS2025
 
-As part of our coursework in drone and robotics engineering, we are building a quadcopter to learn and apply theoretical knowledge in a practical environment. The project involves three main stages: assembling the quadcopter hardware, configuring the flight systems, and programming it to perform a precision landing task on an ArUco marker. All experiments are conducted in the EOLab drone environment, which is maintained and prepared by the lab staff.
+Unmanned Aerial Vehicles (UAVs), commonly known as drones, are increasingly used in research, industry, and education due to their versatility in tasks such as aerial mapping, inspection, and autonomous navigation. In the academic setting, building and programming drones offers students an opportunity to bridge theoretical knowledge with hands-on engineering practice.
+
+As part of our course "Drone Technology and Application", we undertook the challenge of assembling and programming a quadcopter within a laboratory environment. While the base drone platform and simulation environment were prepared by the lab staff, our work focused on assembling and integrating the hardware, configuring the flight controller, and developing the software for a precision landing task using ArUco marker detection. To achieve this, we use ROS2 (Robot Operating System 2) as the software framework, enabling modular control, integration of computer vision, and communication with the flight controller.
+
+The work is carried out in the EOLab drone environment, a controlled laboratory space maintained by the teaching staff, which provides the infrastructure and safety conditions for conducting flight experiments.
+
+This report serves both as a documentation of our project and as a manual for replicating the build. It is organized into three main sections:
+	1.	Drone Assembly 
+	2.	Drone Configuration
+	3.	Drone Programming
 
 ## Section 1 – Drone Assembly
 
