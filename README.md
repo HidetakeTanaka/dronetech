@@ -1,4 +1,9 @@
 # Drone Technology SS2025
+# Section 1 – Drone Assembly
+
+## 1.1 Components List
+
+
 ## 1.2 Assembly Process
 
 ### Step 1 – Assemble the Frame
