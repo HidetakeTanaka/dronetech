@@ -76,6 +76,28 @@ As part of our coursework in drone and robotics engineering, we are building a q
 - Ensure no wires touch the motors or propellers.  
 - Confirm polarity one last time before connecting the battery.  
 - ⚠️ Keep propellers off until configuration and motor tests are complete.
-...
+
+## Section 2 – Drone Configuration
+
+### Choosing the Flight Controller
+Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the **Pixhawk 2.4.8**, a reliable and well-documented option widely used in research and educational projects.
+
+### Pixhawk Overview
+The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers.
+
+For our project, we are using the **Pixhawk 2.4.8** model. Key features include:
+- Support for **8 RC channels** and **4 serial ports**  
+- Multiple user interfaces for **programming, log review, and configuration**  
+- **Smartphone and tablet apps** available for convenient setup  
+- Automatic detection and configuration of connected peripherals  
+
+### Benefits of Pixhawk + PX4
+The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
+- A Unix/Linux-like programming environment  
+- Advanced autopilot functions for flexible mission planning  
+- Support for **sophisticated mission scripting and flight behaviors**  
+- A custom PX4 driver layer ensuring **precise timing across processes**  
+
+This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**.
 
 more info ...
