@@ -95,7 +95,7 @@ Read the instructions carefully before performing each step.
 - **Telemetry radio** → TELEM1   
 - **Buzzer** → BUZZ port    
 - Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement.
-- - ![CHAN wire](im ages/chan-wire.JPG)  
+- - ![FCO con](images/fco-con.JPG)  
 *Figure 4: Connection of peripherals with the Flight Controller*
 
 #### Step 11 – Final Checks
