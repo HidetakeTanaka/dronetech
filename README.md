@@ -14,7 +14,7 @@ This report serves both as a documentation of our project and as a manual for re
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
-Below is a complete list of all components used to build our quadcopter drone.The components used to build our Quadcopter are some form the F450 flame wheel and some of the other components  are made from the teachin stuff to make this quadcopter convinient.  
+The following table lists all components used to assemble our quadcopter. While some parts were taken from the F450 Flame Wheel kit, several others were custom-built with the help of the teaching staff or provided by them to replace unused kit parts and adapt the drone for our project. 
 
 | Component                         | Model / Type                      | Quantity |
 |-----------------------------------|-----------------------------------|----------|
@@ -36,58 +36,67 @@ Below is a complete list of all components used to build our quadcopter drone.Th
 Before starting, prepare all components on your workspace and identify each part.  
 Read the instructions carefully before performing each step. 
 
-### Step 1 – Assemble the Frame
-- Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
-- Decide which color will mark the **front** of your drone (commonly red = front, white = back).  
-- Attach the arms to the top board using screws and tighten firmly.  
-- ⚠️ Orientation helps with flight control and visual recognition in the air.
-
-### Step 2 – Install the ESC Power Leads
-- Solder the ESC power cables onto the top board (or power distribution board).  
+### Step 1 – Prepare and Solder the Power Distribution Board (PDB)
+- Begin by soldering the **ESC power cables** directly to the **bottom board**. For our bottom board, we build a **power distribution board**  to simplify battery connections.   
   - **Red wire → + (positive terminal)**  
   - **Black wire → – (negative terminal)**  
-- ⚠️ Double-check polarity before soldering.  
-- ![Figure X: Example of ESC soldering](path/to/image.png)
+-  Double-check polarity before soldering.  
+-  Be mindful: soldering tools become very hot — make sure you are comfortable with the process before starting.  
 
-### Step 3 – Mount the ESCs
+### Step 2 – Mount the ESCs
 - Secure each ESC along the inside of the frame arms using plastic clamps or zip ties.  
-- Place them midway along the arm to keep wiring organized.  
+- Place them midway along the arm to keep wiring organized.
+
+### Step 3 – Assemble the Frames
+- Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
+- Decide which color will mark the **front** of your drone (in our case: white = front, red = back).  
+- Attach the legs of the arms to the **PDB (bottom board)** using screws.
 
 ### Step 4 – Attach the Motors
 - Fix each motor to the free end of a frame arm.  
-- ⚠️ Do not mount the propellers yet.  
-- ![Figure Y: Correct motor orientation diagram](path/to/image.png)
+- Connect each motor to its corresponding ESC.  
+- Pay attention to motor orientation: two motors must rotate **clockwise (CW)** and two **counter-clockwise (CCW)**.  
+  - Position them diagonally (e.g., front-left and back-right = CW, front-right and back-left = CCW).  
+- Do not mount the propellers yet.  
+- ![Figure Y: Correct motor orientation diagram](images/motor-orientation.jpg)
 
-### Step 5 – Install the Bottom Board
-- Attach the bottom board to complete the frame structure.  
-- In our build, we integrated a **power distribution board (PDB)** between the plates to simplify battery connections.
+### Step 5 – Attach the Landing Legs
+- Secure the four landing legs to the bottom board using screws.  
+- Ensure they are firmly tightened and positioned evenly for stable landings.  
+- Double-check that no wires are trapped between the legs and the frame.  
 
-### Step 6 – Install the Companion Computer *(optional)*
-- Place the companion computer between the boards.  
+### Step 6 – Install the Companion Computer
+- Place the companion computer between the boards.
 - This module handles higher-level processing (e.g., vision tasks).  
 
-### Step 7 – Mount the Flight Controller
-- Fix the **Pixhawk flight controller** at the center-top of the frame using double-sided tape or vibration-damping pads.  
+### Step 7 – Install the Top Board
+- Place the top board onto the frame, above the arms and PDB (bottom board).  
+- Secure it using screws to firmly close the frame structure.  
+- Make sure all cables from the ESCs and power distribution board are routed properly before tightening, so they are not pinched or damaged.   
+
+### Step 8 – Mount the Flight Controller
+- Fix the **Pixhawk flight controller** at the center-top of the frame using double-sided tape.  
 - Ensure the orientation arrow points forward.  
 
-### Step 8 – Connect the ESCs to Pixhawk
+### Step 9 – Connect the ESCs to Pixhawk
 - Connect ESC signal wires to **MAIN OUT 1–4** on the Pixhawk.  
 - Ensure correct mapping of **signal, ground, and power** pins.  
 - ![Figure Z: Example wiring diagram](path/to/image.png)
 
 ### Step 9 – Connect Peripherals
-- **GPS module** → GPS port  
-- **Telemetry radio** → TELEM1/TELEM2  
-- **Buzzer** → BUZZ port  
-- **Additional sensors** (e.g., camera, rangefinder) → I2C or UART ports  
-- ⚠️ Position devices so that no cables obstruct propellers.  
+- **GPS module** → GPS port, 12C
+- **Telemetry radio** → TELEM1   
+- **Buzzer** → BUZZ port    
+- Position devices so that no cables obstruct propellers.  
 - *(We 3D-printed a GPS mount for improved placement.)*
 
 ### Step 10 – Final Checks
 - Verify all screws are secure.  
 - Ensure no wires touch the motors or propellers.  
 - Confirm polarity one last time before connecting the battery.  
-- ⚠️ Keep propellers off until configuration and motor tests are complete.
+- Keep propellers off until configuration and motor tests are complete.
+
+The assembly of our drone is still in progress; therefore, some additional steps will be added to these instructions. Detailed information about the PDB will also be provided soon.
 
 ## Section 2 – Drone Configuration
 
