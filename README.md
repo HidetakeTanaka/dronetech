@@ -153,10 +153,10 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.  
 
 #### Example Screenshots
-1. ![QGroundControl Firmware Tab](images/qgc-firmware-tab.jpg)  
+1. ![QGroundControl Firmware Tab](images/01_Firmware Setup.jpg)  
    *Figure: Firmware section in QGroundControl.*  
 
-2. ![Pixhawk USB Connection](images/pixhawk-usb-connection.jpg)  
+2. ![Pixhawk USB Connection](images/02_Firmware Setup.jpg)  
    *Figure: Connecting Pixhawk to the computer via USB.*  
 
 3. ![Firmware Selection](images/qgc-firmware-selection.jpg)  
