@@ -159,7 +159,8 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
 - Choose the type of your vehicle - quadcopter.
 - ![PX4 firmware](images/px4-firmware.jpg)
-- ![USB pixhawk](images/usb-pixhawk.jpg)    
+- ![USB pixhawk](images/usb-pixhawk.jpg)
+- ![T quadcopter](images/T-quadcopter.jpg)
 
 ### 2.5 Sensor Calibration
 - Accelerometer calibration  
