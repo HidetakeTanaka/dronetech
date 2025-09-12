@@ -63,7 +63,7 @@ Read the instructions carefully before performing each step.
 - Pay attention to motor orientation: two motors must rotate **clockwise (CW)** and two **counter-clockwise (CCW)**.  
 - Position them following Figure 3.  
 - Do not mount the propellers yet.  
-- ![MOT pos](images/mot-pos.PNG)
+- ![MOT pos](images/mot-pos.png)
 - *Figure 3: Motors Positioning*
 
 #### Step 5 – Attach the Landing Legs
