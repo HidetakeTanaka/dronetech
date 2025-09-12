@@ -61,14 +61,17 @@ Read the instructions carefully before performing each step.
 - Fix each motor to the free end of a frame arm.  
 - Connect each motor to its corresponding ESC.  
 - Pay attention to motor orientation: two motors must rotate **clockwise (CW)** and two **counter-clockwise (CCW)**.  
-  - Position them diagonally (e.g., front-left and back-right = CW, front-right and back-left = CCW).  
+- Position them following Figure 3.  
 - Do not mount the propellers yet.  
-- ![Figure Y: Correct motor orientation diagram](images/motor-orientation.jpg)
+- ![MOT pos](images/mot-pos.PNG)
+- *Figure 3: Motors Positioning*
 
 #### Step 5 – Attach the Landing Legs
 - Secure the four landing legs to the bottom board using screws.  
 - Ensure they are firmly tightened and positioned evenly for stable landings.  
-- Double-check that no wires are trapped between the legs and the frame.  
+- Double-check that no wires are trapped between the legs and the frame.
+- ![MOT pos](im ages/mot-pos.PNG)
+- *Figure 3: Motors Positioning*
 
 #### Step 6 – Install the Companion Computer
 - Place the companion computer between the boards.
