@@ -175,9 +175,16 @@ The Pixhawk, running the PX4 autopilot stack, provides several advantages:
 This combination makes Pixhawk 2.4.8 a robust platform for both learning and practical drone applications, enabling us to configure the drone for reliable flight and prepare it for the precision landing assignment. 
 
 ### 2.3 Connecting the Flight Controller
-- Wiring and power connections  
-- Port functions (TELEM, GPS, CAN, I²C, etc.)  
-- Safety considerations  
+Connecting the flight controller turns the airframe into a controllable system: you’ll power the Pixhawk from the PDB, route ESC signal leads to the correct outputs, attach core peripherals (GPS, telemetry, buzzer), and verify orientation/safety before any tests.
+
+- **Power the Pixhawk (via power module/PDB):** Connect the power module from the battery/PDB to the **POWER** port on Pixhawk. Verify the controller powers up (status LEDs) and delivers a stable ~5 V.  
+- **ESC signals to MAIN OUT 1–4:** Plug each ESC’s **signal/ground** into **MAIN OUT 1–4** according to your motor layout (Motor 1→OUT1, Motor 2→OUT2, etc.). Ensure the signal pin (white/yellow) aligns with the signal row and ground (black/brown) with ground.  
+- **Peripherals to the correct ports:**  
+  - **GPS/Compass** → **GPS** (and I²C if using an external compass)  
+  - **Telemetry radio** → **TELEM1**  
+  - **Buzzer** → **BUZZ**  
+  - (Optional) **Safety switch** → **SWITCH**, additional sensors → **I²C/CAN/SPI**  
+- **Safety & orientation:** Mount Pixhawk flat at the center of gravity with the **arrow pointing forward**. Keep **propellers off**, secure/strain-relieve all cables, and ensure no wires can contact the motors or props.
 
 ### 2.4 Firmware Setup
 - Install QGroundControl and open it.  
