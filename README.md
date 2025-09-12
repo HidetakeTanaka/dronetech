@@ -160,7 +160,8 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Go to the **Firmware** section and follow the on-screen instructions.  
 - Connect your computer to the **Pixhawk** using a USB cable.  
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
-- ![PX4 firmware](images/px4-firmware.jpg)  
+- ![PX4 firmware](images/px4-firmware.jpg)
+- ![USB pixhawk](images/usb-pixhawk.jpg)
 
 3. ![Choosing PX4 Pro firmware](images/03-firmware-selection.JPG)  
    *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*      
