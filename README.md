@@ -81,7 +81,7 @@ Read the instructions carefully before performing each step.
 #### Step 9 – Connect the ESCs to Pixhawk
 - Connect the ESC **signal wires** to **MAIN OUT 1–4** on the Pixhawk, in this case the side you plug each cable matters, but pins port is designed in a way that doesn't allow you to make a mistake. 
 - Make sure each ESC is plugged into the **correct output channel** that corresponds to its motor position in the quadcopter layout.    
-- ![Figure Z: Example wiring diagram](images/esc-to-pixhawk.jpg)  
+- ![CHAN wire](images/chan-wire.jpg)  
 *Figure Z: ESC to Pixhawk wiring example.*
 
 #### Step 10 – Connect Peripherals
