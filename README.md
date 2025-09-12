@@ -449,15 +449,18 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 * Descent stalls near ground → lower `land_throttle_min` by 0.02 steps; confirm notch-down logs.
 
 
-
 ## Table of Figures
 
-| Figure | Description                                     | 
-|--------|-------------------------------------------------|
-| 1      | Soldering the ESC power cables                  |
-| 2      | Securing the ESCs                               | 
-| 3      | Motors positioning (CW/CCW)                     | 
-| 4      | ESC to Pixhawk wiring                           | 
-| 5      | Connection of peripherals with the Flight Controller | 
-| 6      | PX4 firmware selection in QGroundControl        | 
-| 7      | Connecting Pixhawk via USB                      | 
+| Figure | Description                                  |
+|--------|----------------------------------------------|
+| 1      | Soldering the ESC power cables               |
+| 2      | Securing the ESCs                            |
+| 3      | Motors positioning (CW/CCW)                  |
+| 4      | ESC to Pixhawk wiring                        |
+| 5      | Connection of peripherals with the Flight Controller |
+| 6      | Connection Pixhawk-Computer via cable        |
+| 7      | Firmware update in QGroundControl            |
+| 8      | Airframe Setup                               |
+| 9      | Compass Calibration                          |
+| 10     | Power Module Configuration                   |
+
