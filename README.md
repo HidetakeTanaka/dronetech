@@ -183,14 +183,14 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 - Go to the Firmware section and follow the on-screen instructions.  
 - Connect your computer to the Pixhawk using a micro-USB cable.
 - ![USB pixhawk](images/usb-pixhawk.jpg)
-*Figure 6: Connection Pixhawk- computer via cable*
+*Figure 6: Connection Pixhawk-Computer via cable*
 
 - Update the firmware by selecting PX4 Pro v1.16.0 – Stable Release.
 - ![PX4 firmware](images/px4-firmware.jpg)
  *Figure 7: Firmware update in QGroundControl*
 
 - Setup the Airframe, choose - Generic quadcopter.
-- ![PX4 firmware](images/px4-firmware.jpg)
+- ![AIR set](images/air-set.jpg)
  *Figure 8: Airframe Setup*
 
 
