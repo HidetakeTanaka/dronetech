@@ -150,7 +150,7 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Go to the **Firmware** section and follow the on-screen instructions.  
 - Connect your computer to the **Pixhawk** using a USB cable.  
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
-- ![ESC soldering example]((https://github.com/HidetakeTanaka/dronetech/blob/e1a5b0f96b94b82d7571760ffb996e6732687abf/images/px4-firmware.jpg))  
+- ![image alt]((https://github.com/HidetakeTanaka/dronetech/blob/e1a5b0f96b94b82d7571760ffb996e6732687abf/images/px4-firmware.jpg))  
 *Figure 2: Example of ESC soldering.*
 
 
