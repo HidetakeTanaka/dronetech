@@ -197,9 +197,10 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 ### 2.5 Sensor Calibration
 Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you to move your vehicle as required for each sensor.
 
-- ![PX4 firmware](images/px4-firmware.jpg)
- *Figure 9: Connection of peripherals with the Flight Controller*
- the example of compass
+- ![COM calibration](images/com-calibration.jpg)
+ *Figure 9: Compass Calibration*
+  
+
 - ![PX4 firmware](images/px4-firmware.jpg)
  *Figure 10: Connection of peripherals with the Flight Controller*
  the example of compass 
