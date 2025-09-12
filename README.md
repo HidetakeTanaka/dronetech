@@ -43,16 +43,16 @@ Read the instructions carefully before performing each step.
 -  Double-check polarity before soldering.  
 -  Be mindful: soldering tools become very hot — make sure you are comfortable with the process before starting.  
 
-### Step 2 – Mount the ESCs
+#### Step 2 – Mount the ESCs
 - Secure each ESC along the inside of the frame arms using plastic clamps or zip ties.  
 - Place them midway along the arm to keep wiring organized.
 
-### Step 3 – Assemble the Frames
+#### Step 3 – Assemble the Frames
 - Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
 - Decide which color will mark the **front** of your drone (in our case: white = front, red = back).  
 - Attach the legs of the arms to the **PDB (bottom board)** using screws.
 
-### Step 4 – Attach the Motors
+#### Step 4 – Attach the Motors
 - Fix each motor to the free end of a frame arm.  
 - Connect each motor to its corresponding ESC.  
 - Pay attention to motor orientation: two motors must rotate **clockwise (CW)** and two **counter-clockwise (CCW)**.  
@@ -60,37 +60,37 @@ Read the instructions carefully before performing each step.
 - Do not mount the propellers yet.  
 - ![Figure Y: Correct motor orientation diagram](images/motor-orientation.jpg)
 
-### Step 5 – Attach the Landing Legs
+#### Step 5 – Attach the Landing Legs
 - Secure the four landing legs to the bottom board using screws.  
 - Ensure they are firmly tightened and positioned evenly for stable landings.  
 - Double-check that no wires are trapped between the legs and the frame.  
 
-### Step 6 – Install the Companion Computer
+#### Step 6 – Install the Companion Computer
 - Place the companion computer between the boards.
 - This module handles higher-level processing (e.g., vision tasks).  
 
-### Step 7 – Install the Top Board
+#### Step 7 – Install the Top Board
 - Place the top board onto the frame, above the arms and PDB (bottom board).  
 - Secure it using screws to firmly close the frame structure.  
 - Make sure all cables from the ESCs and power distribution board are routed properly before tightening, so they are not pinched or damaged.   
 
-### Step 8 – Mount the Flight Controller
+#### Step 8 – Mount the Flight Controller
 - Fix the **Pixhawk flight controller** at the center-top of the frame using double-sided tape.  
 - Ensure the orientation arrow points forward.  
 
-### Step 9 – Connect the ESCs to Pixhawk
-- Connect ESC signal wires to **MAIN OUT 1–4** on the Pixhawk.  
-- Ensure correct mapping of **signal, ground, and power** pins.  
-- ![Figure Z: Example wiring diagram](path/to/image.png)
+#### Step 9 – Connect the ESCs to Pixhawk
+- Connect the ESC **signal wires** to **MAIN OUT 1–4** on the Pixhawk, in this case the side you plug each cable matters, but pins port is designed in a way that doesn't allow you to make a mistake. 
+- Make sure each ESC is plugged into the **correct output channel** that corresponds to its motor position in the quadcopter layout.    
+- ![Figure Z: Example wiring diagram](images/esc-to-pixhawk.jpg)  
+*Figure Z: ESC to Pixhawk wiring example.*
 
-### Step 9 – Connect Peripherals
+#### Step 10 – Connect Peripherals
 - **GPS module** → GPS port, I²C
 - **Telemetry radio** → TELEM1   
 - **Buzzer** → BUZZ port    
-- Position devices so that no cables obstruct propellers.  
-- *(We 3D-printed a GPS mount for improved placement.)*
+- Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement. 
 
-### Step 10 – Final Checks
+#### Step 11 – Final Checks
 - Verify all screws are secure.  
 - Ensure no wires touch the motors or propellers.  
 - Confirm polarity one last time before connecting the battery.  
