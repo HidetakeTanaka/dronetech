@@ -113,7 +113,7 @@ Read the instructions carefully before performing each step.
 - **Telemetry radio** → TELEM1   
 - **Buzzer** → BUZZ port    
 - Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement.
-- - ![FCO con](images/fco-con.JPG)  
+- ![FCO con](images/fco-con.JPG)  
 *Figure 5: Connection of peripherals with the Flight Controller*
 
 #### Step 11 – Final Checks
@@ -181,21 +181,33 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 ### 2.4 Firmware Setup
 - Install QGroundControl and open it.  
 - Go to the Firmware section and follow the on-screen instructions.  
-- Connect your computer to the Pixhawk using a micro-USB cable.  
-- Update the firmware by selecting PX4 Pro v1.16.0 – Stable Release.
-- Choose the type of your vehicle - quadcopter.
-- ![PX4 firmware](images/px4-firmware.jpg)
+- Connect your computer to the Pixhawk using a micro-USB cable.
 - ![USB pixhawk](images/usb-pixhawk.jpg)
+*Figure 6: Connection Pixhawk- computer via cable*
+
+- Update the firmware by selecting PX4 Pro v1.16.0 – Stable Release.
+- ![PX4 firmware](images/px4-firmware.jpg)
+ *Figure 7: Firmware update in QGroundControl*
+
+- Setup the Airframe, choose - Generic quadcopter.
+- ![PX4 firmware](images/px4-firmware.jpg)
+ *Figure 8: Airframe Setup*
+
 
 ### 2.5 Sensor Calibration
-Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you. 
-![dva](images/vb.png)
+Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you to move your vehicle as required for each sensor.
 
-### 2.6 Configuring Peripheral Devices
-- GPS module  
-- Telemetry radio  
-- Buzzer  
-- Additional sensors (e.g., rangefinder, camera)  
+- ![PX4 firmware](images/px4-firmware.jpg)
+ *Figure 9: Connection of peripherals with the Flight Controller*
+ the example of compass
+- ![PX4 firmware](images/px4-firmware.jpg)
+ *Figure 10: Connection of peripherals with the Flight Controller*
+ the example of compass 
+
+### 2.6 Configuring Power Module
+- ![PX4 firmware](images/px4-firmware.jpg)
+ *Figure 11: Connection of peripherals with the Flight Controller*
+
 
 ### 2.7 Parameter Settings
 - Key parameters for stable flight  
