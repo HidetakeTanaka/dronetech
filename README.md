@@ -22,8 +22,7 @@ This report serves both as a documentation of our project and as a manual for re
   - [2.3 Connecting the Flight Controller](#23-connecting-the-flight-controller)
   - [2.4 Firmware Setup](#24-firmware-setup)
   - [2.5 Sensor Calibration](#25-sensor-calibration)
-  - ### 2.6 Actuators Configuration 
-  -
+  - [2.6 Actuators Configuration](#26-sensor-calibration)
   - [2.7 Parameter Settings](#27-parameter-settings)
   - [2.8 Final Checks](#28-final-checks)
 - [Section 3 – Drone Programming](#section-3--drone-programming)
