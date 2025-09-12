@@ -36,7 +36,7 @@ The following table lists all components used to assemble our quadcopter. While 
 Before starting, prepare all components on your workspace and identify each part.  
 Read the instructions carefully before performing each step. 
 
-### Step 1 – Prepare and Solder the Power Distribution Board (PDB)
+#### Step 1 – Prepare and Solder the Power Distribution Board (PDB)
 - Begin by soldering the **ESC power cables** directly to the **bottom board**. For our bottom board, we build a **power distribution board**  to simplify battery connections.   
   - **Red wire → + (positive terminal)**  
   - **Black wire → – (negative terminal)**  
@@ -100,10 +100,9 @@ The assembly of our drone is still in progress; therefore, some additional steps
 
 ## Section 2 – Drone Configuration
 
-### Choosing the Flight Controller
 Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the **Pixhawk 2.4.8**, a reliable and well-documented option widely used in research and educational projects.
 
-### Pixhawk Overview
+### 2.1 Pixhawk Overview
 The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers.
 
 For our project, we are using the **Pixhawk 2.4.8** model. Key features include:
@@ -112,7 +111,7 @@ For our project, we are using the **Pixhawk 2.4.8** model. Key features include:
 - **Smartphone and tablet apps** available for convenient setup  
 - Automatic detection and configuration of connected peripherals  
 
-### Benefits of Pixhawk + PX4
+### 2.2 Relationship of Pixhawk & PX4
 The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
 - A Unix/Linux-like programming environment  
 - Advanced autopilot functions for flexible mission planning  
