@@ -133,7 +133,6 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 
 
 
-
 ## Section 2 – Drone Configuration
 
 ### 2.1 Pixhawk Overview
@@ -193,11 +192,6 @@ more info ...
 
 
 # Section 3 – Drone Programming
-
-> **Submission status (today)**
-> We are still integrating and tuning the autonomous precision landing. If it does not reliably touch down by **22:00** today, we will submit this as an **incomplete prototype**: design, rationale, partial results, limitations, and next steps are documented below.
-
----
 
 ## 3.1 Overview
 
