@@ -262,9 +262,9 @@ For our project, we primarily relied on the default PX4 settings, which are suff
 ## Section 3 – Drone Programming
 
 This section explains the software implementation of the precision landing task on an ArUco marker using ROS 2 + PX4. A complete description of the task is available at EOLab Drones – Precision Landing Assignment.
-We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
-1. **Guided-search** (home toward a just-visible marker),
-2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
+We describe the topic pipeline (detector → bridge → controller), the finite-state machine (FSM) controller, and two key design choices added during integration:
+1. **Guided-search** - home toward a just-visible marker,
+2. **Exclusive stick ownership** - our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
 
 ### 3.1 Precision Landing Task Overview
 The precision landing task requires the quadcopter to autonomously execute a controlled touchdown on a predefined visual target, specifically an ArUco marker. The system must detect and track the marker in the onboard camera stream, convert these detections into position and orientation errors in the drone’s body frame, and generate corresponding roll, pitch, yaw, and throttle commands to achieve alignment, descent, and landing. In addition, the implementation must remain robust to temporary loss of visual feedback and ensure that PX4 reliably accepts the externally generated control inputs, overriding manual or QGroundControl commands when required.  
