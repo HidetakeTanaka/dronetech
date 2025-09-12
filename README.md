@@ -208,13 +208,16 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
 
 ### 2.6 Actuators Configuration 
 
-  
+- ![ACT bef](images/act-bef.jpg)
+ **Figure 10: Actuator setup – before configuration*  
+- ![ACT aft](images/act-aft.jpg)
+ *Figure 11: Actuator setup – before configuration*  
   
 
 ### 2.7 Configuring Power Module
 Enter the specifications of the battery you will use.
 - ![POW con](images/pow-con.jpg)
- *Figure 10: Power Module Configuration*
+ *Figure 12: Power Module Configuration*
 
 
 ### 2.8 Parameter Settings
@@ -225,7 +228,10 @@ Enter the specifications of the battery you will use.
 ### 2.9 Final Checks
 - Verifying all connections  
 - Ensuring firmware and parameters are updated  
-- Running initial test flights without propellers  
+- Running initial test flights without propellers
+- Perform a motor test in QGroundControl (without props).  
+- Check that motor directions (CW/CCW) match the airframe setup.  
+- Verify GPS lock before arming. 
 
 
 ## Section 3 – Drone Programming
