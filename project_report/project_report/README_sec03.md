@@ -234,3 +234,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 * Descent stalls near ground → lower `land_throttle_min` by 0.02 steps; confirm notch-down logs.
 
 ---
+
+## 3.11 Final Comment
+
+> In our tests, when the controller was engaged directly over the ArUco marker, the drone aligned and descended onto the tag reliably. However, when engagement began with a lateral offset (marker not centered), the vehicle occasionally diverged from the marker during SEARCH/ALIGN and, in some cases, landed on ground without a marker. This reflects the current ManualControlSetpoint approach and loss-handling; stricter LAND gating and Offboard velocity setpoints are planned as future work.
