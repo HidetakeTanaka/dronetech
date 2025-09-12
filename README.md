@@ -34,7 +34,8 @@ This report serves both as a documentation of our project and as a manual for re
 ### Step 1 – Assemble the Frame
 - Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
 - Decide which color will mark the **front** of your drone (commonly red = front, white = back).  
-- Attach the arms to the top board using screws and tighten firmly.  
+- Attach the arms to the top board using screws and tighten firmly.
+- 
 - ⚠️ Orientation helps with flight control and visual recognition in the air.
 
 ### Step 2 – Install the ESC Power Leads
