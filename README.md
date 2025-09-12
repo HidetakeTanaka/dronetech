@@ -11,6 +11,24 @@ This report serves both as a documentation of our project and as a manual for re
 	2.	Drone Configuration
 	3.	Drone Programming
 
+
+## Table of Contents
+- [Section 1 – Drone Assembly](#section-1--drone-assembly)
+  - [1.1 Components List](#11-components-list)
+  - [1.2 Assembly Process](#12-assembly-process)
+- [Section 2 – Drone Configuration](#section-2--drone-configuration)
+  - [2.1 Pixhawk Overview](#21-pixhawk-overview)
+  - [2.2 Relationship of Pixhawk & PX4](#22-relationship-of-pixhawk--px4)
+  - [2.3 Connecting the Flight Controller](#23-connecting-the-flight-controller)
+  - [2.4 Firmware Setup](#24-firmware-setup)
+  - [2.5 Sensor Calibration](#25-sensor-calibration)
+  - [2.6 Configuring Peripheral Devices](#26-configuring-peripheral-devices)
+  - [2.7 Parameter Settings](#27-parameter-settings)
+  - [2.8 Final Checks](#28-final-checks)
+- [Section 3 – Drone Programming](#section-3--drone-programming)
+- [Table of Figures](#table-of-figures)
+
+
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
