@@ -40,8 +40,9 @@ This report serves both as a documentation of our project and as a manual for re
   - [3.8 Limitations](#38-limitations)  
   - [3.9 Improvements (Planned)](#39-improvements-planned)  
   - [3.10 Troubleshooting](#310-troubleshooting)  
+  - [3.11 Final Comment](#311-final-comment)  
 
-- [Table of Figures](#table-of-figures)  
+- [Table of Figures](#table-of-figures)    
 
 
 ## Section 1 – Drone Assembly
