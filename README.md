@@ -201,13 +201,9 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
  *Figure 9: Compass Calibration*
   
 
-- ![PX4 firmware](images/px4-firmware.jpg)
- *Figure 10: Connection of peripherals with the Flight Controller*
- the example of compass 
-
 ### 2.6 Configuring Power Module
-- ![PX4 firmware](images/px4-firmware.jpg)
- *Figure 11: Connection of peripherals with the Flight Controller*
+- ![POW con](images/px4- firmware.jpg)
+ *Figure 10: Power Configuration*
 
 
 ### 2.7 Parameter Settings
