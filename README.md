@@ -152,15 +152,14 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Connect your computer to the **Pixhawk** using a USB cable.  
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.  
 
-#### Example Screenshots
-1. ![QGroundControl Firmware Tab](images/01_Firmware-Setup.jpg)  
+1. ![Firmware section in QGroundControl](images/01-firmware-setup.JPG)  
    *Figure: Firmware section in QGroundControl.*  
 
-2. ![Pixhawk USB Connection](images/02_Firmware-Setup.jpg)  
+2. ![Connecting Pixhawk to the computer via USB](images/02-pixhawk-usb.JPG)  
    *Figure: Connecting Pixhawk to the computer via USB.*  
 
-3. ![Firmware Selection](images/qgc-firmware-selection.jpg)  
-   *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*    
+3. ![Choosing PX4 Pro firmware](images/03-firmware-selection.JPG)  
+   *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*      
 
 ### 2.4 Sensor Calibration
 - Accelerometer calibration  
