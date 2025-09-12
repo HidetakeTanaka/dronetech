@@ -22,7 +22,8 @@ This report serves both as a documentation of our project and as a manual for re
   - [2.3 Connecting the Flight Controller](#23-connecting-the-flight-controller)
   - [2.4 Firmware Setup](#24-firmware-setup)
   - [2.5 Sensor Calibration](#25-sensor-calibration)
-  - [2.6 Configuring Peripheral Devices](#26-configuring-peripheral-devices)
+  - ### 2.6 Actuators Configuration 
+  -
   - [2.7 Parameter Settings](#27-parameter-settings)
   - [2.8 Final Checks](#28-final-checks)
 - [Section 3 – Drone Programming](#section-3--drone-programming)
@@ -189,30 +190,39 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 - ![PX4 firmware](images/px4-firmware.jpg)
  *Figure 7: Firmware update in QGroundControl*
 
-- Setup the Airframe, choose: "Generic Quadcopter".
+- Setup the Airframe, choose: "Generic Quadcopter". It is necessary to map the motors correctly.
 - ![AIR set](images/air-set.jpg)
  *Figure 8: Airframe Setup*
 
 
 ### 2.5 Sensor Calibration
 Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you to move your vehicle as required for each sensor.
-
+	•	Compass calibration → rotate drone in all directions.
+	•	Accelerometer calibration → place drone level, nose up, nose down, etc.
+	•	Gyroscope calibration → performed automatically when stationary.
+ 
+ Illustration from Compass Calibration:
 - ![COM calibration](images/com-calibration.jpg)
  *Figure 9: Compass Calibration*
+
+
+### 2.6 Actuators Configuration 
+
+  
   
 
-### 2.6 Configuring Power Module
+### 2.7 Configuring Power Module
 Enter the specifications of the battery you will use.
 - ![POW con](images/pow-con.jpg)
  *Figure 10: Power Module Configuration*
 
 
-### 2.7 Parameter Settings
+### 2.8 Parameter Settings
 - Key parameters for stable flight  
 - Example of non-standard configurations  
 - Saving and restoring parameter files  
 
-### 2.8 Final Checks
+### 2.9 Final Checks
 - Verifying all connections  
 - Ensuring firmware and parameters are updated  
 - Running initial test flights without propellers  
