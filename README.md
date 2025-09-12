@@ -14,6 +14,8 @@ This report serves both as a documentation of our project and as a manual for re
 ## Section 1 – Drone Assembly
 
 ### 1.1 Components List
+Below is a complete list of all components used to build our quadcopter drone.The components used to build our Quadcopter are some form the F450 flame wheel and some of the other components  are made from the teachin stuff to make this quadcopter convinient.  
+
 | Component                         | Model / Type                      | Quantity |
 |-----------------------------------|-----------------------------------|----------|
 | Flight Controller                 | Pixhawk 2.4.8                     | 1        |
@@ -24,13 +26,15 @@ This report serves both as a documentation of our project and as a manual for re
 | ESC (Electronic Speed Controllers)| –                                 | 4        |
 | Top Board                         | –                                 | 1        |
 | Power Distribution Board (PDB)    | –                                 | 1        |
-| Battery                           | LIpo, 4S                          | 1        |       
+| Battery                           | LiPo, 4S                          | 1        |       
 | Buzzer                            | Active Buzzer Module              | 1        |
 | Radio Telemetry                   | Telem 02 (RX)                     | 1        |
 | GPS Module                        | –                                 | 1        |
 | Landing Legs                      | –                                 | 4        |
 
 ### 1.2 Assembly Process
+Before starting, prepare all components on your workspace and identify each part.  
+Read the instructions carefully before performing each step. 
 
 ### Step 1 – Assemble the Frame
 - Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
