@@ -82,7 +82,7 @@ Read the instructions carefully before performing each step.
 - Position them following Figure 3.  
 - Do not mount the propellers yet.  
 - ![MOT pos](images/mot-pos.png)
-- *Figure 3: Motors Positioning*
+- *Figure 3:  Motors positioning (CW/CCW)*
 
 #### Step 5 – Attach the Landing Legs
 - Secure the four landing legs to the bottom board using screws.  
@@ -114,7 +114,7 @@ Read the instructions carefully before performing each step.
 - **Buzzer** → BUZZ port    
 - Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement.
 - - ![FCO con](images/fco-con.JPG)  
-*Figure 4: Connection of peripherals with the Flight Controller*
+*Figure 5: Connection of peripherals with the Flight Controller*
 
 #### Step 11 – Final Checks
 - Verify all screws are secure.  
@@ -443,12 +443,12 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 ## Table of Figures
 
-| Figure | Description                                     | File |
-|--------|-------------------------------------------------|------|
-| 1      | Soldering the ESC power cables to PDB           | images/sol-pol.JPG |
-| 2      | Securing the ESCs on the frame arms             | images/arm-esc.JPG |
-| 3      | Motors positioning (CW/CCW)                     | images/mot-pos.png |
-| 4      | ESC to Pixhawk wiring                           | images/chan-wire.JPG |
-| 5      | Connection of peripherals with the Flight Controller | images/fco-con.JPG |
-| 6      | PX4 firmware selection in QGroundControl        | images/px4-firmware.jpg |
-| 7      | Connecting Pixhawk via USB                      | images/usb-pixhawk.jpg |
+| Figure | Description                                     | 
+|--------|-------------------------------------------------|
+| 1      | Soldering the ESC power cables                  |
+| 2      | Securing the ESCs                               | 
+| 3      | Motors positioning (CW/CCW)                     | 
+| 4      | ESC to Pixhawk wiring                           | 
+| 5      | Connection of peripherals with the Flight Controller | 
+| 6      | PX4 firmware selection in QGroundControl        | 
+| 7      | Connecting Pixhawk via USB                      | 
