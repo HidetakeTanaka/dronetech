@@ -161,10 +161,6 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Connect your computer to the **Pixhawk** using a USB cable.  
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
 - ![PX4 firmware](images/px4-firmware.jpg)  
-*Figure 2: Example of ESC soldering.*
-
-2. ![Connecting Pixhawk to the computer via USB](images/02-pixhawk-usb.JPG)  
-   *Figure: Connecting Pixhawk to the computer via USB.*  
 
 3. ![Choosing PX4 Pro firmware](images/03-firmware-selection.JPG)  
    *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*      
