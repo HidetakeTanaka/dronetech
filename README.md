@@ -84,7 +84,7 @@ Read the instructions carefully before performing each step.
 - ![Figure Z: Example wiring diagram](path/to/image.png)
 
 ### Step 9 – Connect Peripherals
-- **GPS module** → GPS port, 12C
+- **GPS module** → GPS port, I²C
 - **Telemetry radio** → TELEM1   
 - **Buzzer** → BUZZ port    
 - Position devices so that no cables obstruct propellers.  
@@ -96,20 +96,30 @@ Read the instructions carefully before performing each step.
 - Confirm polarity one last time before connecting the battery.  
 - Keep propellers off until configuration and motor tests are complete.
 
-The assembly of our drone is still in progress; therefore, some additional steps will be added to these instructions. Detailed information about the PDB will also be provided soon.
+The assembly of our drone is still in progress; therefore, some additional steps and components will be added to these section. Detailed information about the PDB,and the battery will also be provided soon.
 
 ## Section 2 – Drone Configuration
 
-Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the **Pixhawk 2.4.8**, a reliable and well-documented option widely used in research and educational projects.
+Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the **Pixhawk 2.4.8**, a reliable and well-documented option widely used in educational projects.
 
 ### 2.1 Pixhawk Overview
-The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers.
+The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers. 
 
-For our project, we are using the **Pixhawk 2.4.8** model. Key features include:
+### Key Features
 - Support for **8 RC channels** and **4 serial ports**  
 - Multiple user interfaces for **programming, log review, and configuration**  
 - **Smartphone and tablet apps** available for convenient setup  
 - Automatic detection and configuration of connected peripherals  
+
+### Technical Specifications
+- **SKU:** 29453  
+- **Supply Voltage:** 7 V  
+- **Processor:** 32-bit ARM Cortex-M4 core  
+- **Bus Interfaces:** UART, I²C, SPI, CAN  
+- **Firmware:** Mission Planner  
+- **Sensors:** Gyroscope, Accelerometer, Barometer, Magnetometer  
+- **Storage:** microSD card slot for flight data logging  
+
 
 ### 2.2 Relationship of Pixhawk & PX4
 The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
@@ -118,6 +128,61 @@ The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
 - Support for **sophisticated mission scripting and flight behaviors**  
 - A custom PX4 driver layer ensuring **precise timing across processes**  
 
-This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**.
+This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**. 
+
+
+
+
+
+## Section 2 – Drone Configuration
+
+### 2.1 Pixhawk Overview
+- General description of Pixhawk  
+- Relationship between Pixhawk and PX4  
+- Key features and advantages  
+
+### 2.2 Connecting the Flight Controller
+- Wiring and power connections  
+- Port functions (TELEM, GPS, CAN, I²C, etc.)  
+- Safety considerations  
+
+### 2.3 Firmware Setup
+- Install **QGroundControl** and open it.  
+- Go to the **Firmware** section and follow the on-screen instructions.  
+- Connect your computer to the **Pixhawk** using a USB cable.  
+- Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.  
+
+#### Example Screenshots
+1. ![QGroundControl Firmware Tab](images/qgc-firmware-tab.jpg)  
+   *Figure: Firmware section in QGroundControl.*  
+
+2. ![Pixhawk USB Connection](images/pixhawk-usb-connection.jpg)  
+   *Figure: Connecting Pixhawk to the computer via USB.*  
+
+3. ![Firmware Selection](images/qgc-firmware-selection.jpg)  
+   *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*    
+
+### 2.4 Sensor Calibration
+- Accelerometer calibration  
+- Gyroscope calibration  
+- Magnetometer (compass) calibration  
+- Radio/RC calibration  
+- ESC calibration  
+
+### 2.5 Configuring Peripheral Devices
+- GPS module  
+- Telemetry radio  
+- Buzzer  
+- Additional sensors (e.g., rangefinder, camera)  
+
+### 2.6 Parameter Settings
+- Key parameters for stable flight  
+- Example of non-standard configurations (if used)  
+- Saving and restoring parameter files  
+
+### 2.7 Final Checks
+- Verifying all connections  
+- Ensuring firmware and parameters are updated  
+- Running initial test flights without propellers  
 
 more info ...
