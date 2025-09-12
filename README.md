@@ -49,6 +49,8 @@ Read the instructions carefully before performing each step.
 #### Step 2 – Mount the ESCs
 - Secure each ESC along the inside of the frame arms using plastic clamps or zip ties.  
 - Place them midway along the arm to keep wiring organized.
+- ![ARM esc](images/arm-esc.JPG)
+- *Figure 2: Securing the ESCs*
 
 #### Step 3 – Assemble the Frames
 - Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
