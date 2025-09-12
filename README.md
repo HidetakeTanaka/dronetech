@@ -189,7 +189,7 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 - ![PX4 firmware](images/px4-firmware.jpg)
  *Figure 7: Firmware update in QGroundControl*
 
-- Setup the Airframe, choose - Generic quadcopter.
+- Setup the Airframe, choose: "Generic Quadcopter".
 - ![AIR set](images/air-set.jpg)
  *Figure 8: Airframe Setup*
 
