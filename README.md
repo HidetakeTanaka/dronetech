@@ -441,3 +441,14 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 
 
+## Table of Figures
+
+| Figure | Description                                     | File |
+|--------|-------------------------------------------------|------|
+| 1      | Soldering the ESC power cables to PDB           | images/sol-pol.JPG |
+| 2      | Securing the ESCs on the frame arms             | images/arm-esc.JPG |
+| 3      | Motors positioning (CW/CCW)                     | images/mot-pos.png |
+| 4      | ESC to Pixhawk wiring                           | images/chan-wire.JPG |
+| 5      | Connection of peripherals with the Flight Controller | images/fco-con.JPG |
+| 6      | PX4 firmware selection in QGroundControl        | images/px4-firmware.jpg |
+| 7      | Connecting Pixhawk via USB                      | images/usb-pixhawk.jpg |
