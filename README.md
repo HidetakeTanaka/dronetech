@@ -202,14 +202,14 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
   
 
 ### 2.6 Configuring Power Module
-Enter the specifications of the battery you will use. 
+Enter the specifications of the battery you will use.
 - ![POW con](images/pow-con.jpg)
- *Figure 10: Power Configuration*
+ *Figure 10: Power Module Configuration*
 
 
 ### 2.7 Parameter Settings
 - Key parameters for stable flight  
-- Example of non-standard configurations (if used)  
+- Example of non-standard configurations  
 - Saving and restoring parameter files  
 
 ### 2.8 Final Checks
@@ -222,7 +222,7 @@ Enter the specifications of the battery you will use.
 
 ### 3.1 Overview
 
-This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 ↔ PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
+This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 - PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
 
 1. **Guided-search** (home toward a just-visible marker),
 2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
