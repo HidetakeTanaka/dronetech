@@ -55,7 +55,7 @@ Before starting, prepare all components on your workspace and identify each part
 Read the instructions carefully before performing each step. 
 
 #### Step 1 – Prepare and Solder the Power Distribution Board (PDB)
-- Begin by soldering the **ESC power cables** directly to the **bottom board**. For our bottom board, we build a **power distribution board**  to simplify battery connections.   
+- Begin by soldering the ESC power cables directly to the bottom board. For our bottom board, we build a power distribution board to simplify battery connections.   
   - **Red wire → + (positive terminal)**  
   - **Black wire → – (negative terminal)**  
 -  Double-check polarity before soldering.  
@@ -71,14 +71,14 @@ Read the instructions carefully before performing each step.
 - *Figure 2: Securing the ESCs*
 
 #### Step 3 – Assemble the Frames
-- Separate the two **white arms (450FAW)** from the two **red arms (450FAC)**.  
-- Decide which color will mark the **front** of your drone (in our case: white = front, red = back).  
-- Attach the legs of the arms to the **PDB (bottom board)** using screws.
+- Separate the two white arms (450FAW) from the two red arms (450FAC).  
+- Decide which color will mark the front of your drone (in our case: white = front, red = back).  
+- Attach the legs of the arms to the PDB (bottom board) using screws.
 
 #### Step 4 – Attach the Motors
 - Fix each motor to the free end of a frame arm.  
 - Connect each motor to its corresponding ESC.  
-- Pay attention to motor orientation: two motors must rotate **clockwise (CW)** and two **counter-clockwise (CCW)**.  
+- Pay attention to motor orientation: two motors must rotate clockwise (CW) and two counter-clockwise (CCW).  
 - Position them following Figure 3.  
 - Do not mount the propellers yet.  
 - ![MOT pos](images/mot-pos.png)
@@ -99,12 +99,12 @@ Read the instructions carefully before performing each step.
 - Make sure all cables from the ESCs and power distribution board are routed properly before tightening, so they are not pinched or damaged.   
 
 #### Step 8 – Mount the Flight Controller
-- Fix the **Pixhawk flight controller** at the center-top of the frame using double-sided tape.  
+- Fix the Pixhawk flight controller at the center-top of the frame using double-sided tape.  
 - Ensure the orientation arrow points forward.  
 
 #### Step 9 – Connect the ESCs to Pixhawk
-- Connect the ESC **signal wires** to **MAIN OUT 1–4** on the Pixhawk, in this case the side you plug each cable matters, but pins port is designed in a way that doesn't allow you to make a mistake. 
-- Make sure each ESC is plugged into the **correct output channel** that corresponds to its motor position in the quadcopter layout.    
+- Connect the ESC signal wires to MAIN OUT 1–4 on the Pixhawk, in this case the side you plug each cable matters, but pins port is designed in a way that doesn't allow you to make a mistake. 
+- Make sure each ESC is plugged into the correct output channel that corresponds to its motor position in the quadcopter layout.    
 - ![CHAN wire](images/chan-wire.JPG)  
 *Figure 4: ESC to Pixhawk wiring*
 
@@ -126,10 +126,10 @@ The assembly of our drone is still in progress; therefore, some additional steps
 
 ## Section 2 – Drone Configuration
 
-Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the **Pixhawk 2.4.8**, a reliable and well-documented option widely used in educational projects.
+Selecting the right flight controller can be a challenging task, as it must match the drone’s requirements and mission goals. For our build, we selected the Pixhawk 2.4.8, a reliable and well-documented option widely used in educational projects.
 
 ### 2.1 Pixhawk Overview
-The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers. 
+The **Pixhawk** is an open-hardware flight controller that serves as the “brain” of the drone. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers. 
 
 ### Specifications
 **Microprocessor**
@@ -165,13 +165,13 @@ The **Pixhawk** is an open-hardware flight controller that serves as the **“br
 - Length: 81.5mm (3.21")
 
 ### 2.2 Relationship of Pixhawk & PX4
-The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
+The Pixhawk, running the PX4 autopilot stack, provides several advantages:
 - A Unix/Linux-like programming environment  
 - Advanced autopilot functions for flexible mission planning  
-- Support for **sophisticated mission scripting and flight behaviors**  
-- A custom PX4 driver layer ensuring **precise timing across processes**  
+- Support for sophisticated mission scripting and flight behaviors  
+- A custom PX4 driver layer ensuring precise timing across processes 
 
-This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**. 
+This combination makes Pixhawk 2.4.8 a robust platform for both learning and practical drone applications, enabling us to configure the drone for reliable flight and prepare it for the precision landing assignment. 
 
 ### 2.3 Connecting the Flight Controller
 - Wiring and power connections  
@@ -179,10 +179,10 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Safety considerations  
 
 ### 2.4 Firmware Setup
-- Install **QGroundControl** and open it.  
-- Go to the **Firmware** section and follow the on-screen instructions.  
-- Connect your computer to the **Pixhawk** using a USB cable.  
-- Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
+- Install QGroundControl and open it.  
+- Go to the Firmware section and follow the on-screen instructions.  
+- Connect your computer to the Pixhawk using a USB cable.  
+- Update the firmware by selecting PX4 Pro v1.16.0 – Stable Release.
 - Choose the type of your vehicle - quadcopter.
 - ![PX4 firmware](images/px4-firmware.jpg)
 - ![USB pixhawk](images/usb-pixhawk.jpg)
