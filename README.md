@@ -105,20 +105,38 @@ Selecting the right flight controller can be a challenging task, as it must matc
 ### 2.1 Pixhawk Overview
 The **Pixhawk** is an open-hardware flight controller that serves as the **“brain” of the drone**. It interprets pilot commands and sensor data to regulate the motors, ensuring stable and responsive flight. The board integrates a variety of sensors that measure movement, orientation, and environmental data. Using this information, it continuously adjusts motor speeds to execute flight maneuvers. 
 
-### Key Features
-- Support for **8 RC channels** and **4 serial ports**  
-- Multiple user interfaces for **programming, log review, and configuration**  
-- **Smartphone and tablet apps** available for convenient setup  
-- Automatic detection and configuration of connected peripherals  
+### Specifications
+**Microprocessor**
+- 32-bit STM32F427 Cortex M4 core with FPU
+- 168 MHz / 256 KB RAM / 2 MB Flash
+- 32-bit STM32F103 failsafe co-processor 
 
-### Technical Specifications
-- **SKU:** 29453  
-- **Supply Voltage:** 7 V  
-- **Processor:** 32-bit ARM Cortex-M4 core  
-- **Bus Interfaces:** UART, I²C, SPI, CAN  
-- **Firmware:** Mission Planner  
-- **Sensors:** Gyroscope, Accelerometer, Barometer, Magnetometer  
-- **Storage:** microSD card slot for flight data logging  
+**Sensors**
+- L3GD20 3-axis 16-bit gyroscope
+- LSM303D 3-axis 14-bit accelerometer / magnetometer
+- MPU 6000 3-axis accelerometer / gyroscope
+- 5611 barometer 
+ 
+**Interfaces**
+- 5x UART (serial ports), one high-power capable, 2x with HW flow control
+- 2x CAN
+- S.BUS input and output
+- PPM sum signal
+- RSSI (PWM or voltage) input
+- I2C
+- SPI
+- 3.3 and 6.6V ADC inputs
+- External micro-USB port
+
+**Power System**
+- Ideal diode controller with automatic failover
+- Servo rail high-power (7 V) and high-current ready
+- All peripheral outputs over-current protected, all inputs ESD protected
+**Weight and Dimensions**
+- Weight: 38g (1.31oz)
+- Width: 50mm (1.96")
+- Thickness: 15.5mm (0.61")
+- Length: 81.5mm (3.21")
 
 
 ### 2.2 Relationship of Pixhawk & PX4
@@ -130,22 +148,14 @@ The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
 
 This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**. 
 
+  
 
-
-
-## Section 2 – Drone Configuration
-
-### 2.1 Pixhawk Overview
-- General description of Pixhawk  
-- Relationship between Pixhawk and PX4  
-- Key features and advantages  
-
-### 2.2 Connecting the Flight Controller
+### 2.3 Connecting the Flight Controller
 - Wiring and power connections  
 - Port functions (TELEM, GPS, CAN, I²C, etc.)  
 - Safety considerations  
 
-### 2.3 Firmware Setup
+### 2.4 Firmware Setup
 - Install **QGroundControl** and open it.  
 - Go to the **Firmware** section and follow the on-screen instructions.  
 - Connect your computer to the **Pixhawk** using a USB cable.  
@@ -153,49 +163,39 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - ![image alt]((https://github.com/HidetakeTanaka/dronetech/blob/e1a5b0f96b94b82d7571760ffb996e6732687abf/images/px4-firmware.jpg))  
 *Figure 2: Example of ESC soldering.*
 
-
-
-
 2. ![Connecting Pixhawk to the computer via USB](images/02-pixhawk-usb.JPG)  
    *Figure: Connecting Pixhawk to the computer via USB.*  
 
 3. ![Choosing PX4 Pro firmware](images/03-firmware-selection.JPG)  
    *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*      
 
-### 2.4 Sensor Calibration
+### 2.5 Sensor Calibration
 - Accelerometer calibration  
 - Gyroscope calibration  
 - Magnetometer (compass) calibration  
 - Radio/RC calibration  
 - ESC calibration  
 
-### 2.5 Configuring Peripheral Devices
+### 2.6 Configuring Peripheral Devices
 - GPS module  
 - Telemetry radio  
 - Buzzer  
 - Additional sensors (e.g., rangefinder, camera)  
 
-### 2.6 Parameter Settings
+### 2.7 Parameter Settings
 - Key parameters for stable flight  
 - Example of non-standard configurations (if used)  
 - Saving and restoring parameter files  
 
-### 2.7 Final Checks
+### 2.8 Final Checks
 - Verifying all connections  
 - Ensuring firmware and parameters are updated  
 - Running initial test flights without propellers  
 
-more info ...
 
+## Section 3 – Drone Programming
 
-
-
-
-
-
-# Section 3 – Drone Programming
-
-## 3.1 Overview
+### 3.1 Overview
 
 This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 ↔ PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
 
@@ -206,7 +206,7 @@ We conclude with results, known limitations, and concrete improvements.
 
 ---
 
-## 3.2 Architecture (ROS 2 / PX4)
+### 3.2 Architecture (ROS 2 / PX4)
 
 **Nodes & topics**
 
@@ -236,7 +236,7 @@ We conclude with results, known limitations, and concrete improvements.
 
 ---
 
-## 3.3 Mission logic (FSM)
+### 3.3 Mission logic (FSM)
 
 `WAIT → SEARCH → ALIGN → DESCEND → FINE_ALIGN → LAND`
 
@@ -250,9 +250,9 @@ Safety: if the marker is lost longer than `lost_timeout`, the controller reverts
 
 ---
 
-## 3.4 Implementation highlights
+### 3.4 Implementation highlights
 
-### A) Exclusive stick ownership (PX4 acceptance)
+#### A) Exclusive stick ownership (PX4 acceptance)
 
 To prevent QGC/RC from overriding descent, the controller **always publishes** (even when not engaged, it can send hover if `idle_hover=true`) with:
 
@@ -280,7 +280,7 @@ msg.sticks_moving = True     # keep ownership
 pub.publish(msg)
 ```
 
-### B) Guided-search (snappier acquisition)
+#### B) Guided-search (snappier acquisition)
 
 During **SEARCH**, if the marker is even briefly visible, we immediately bias roll/pitch toward the marker (plus mild yaw centering). This reduces “spinning in place”.
 
@@ -301,7 +301,7 @@ else:
     cmd_r = clamp(search_yaw_rate, -max_yaw, max_yaw)
 ```
 
-### C) Stall-aware descent near ground
+#### C) Stall-aware descent near ground
 
 If altitude (from `err.y`) does not improve for a short dwell, we **notch down** `descend_throttle` (never below `land_throttle_min`) to ensure continued descent.
 
@@ -316,7 +316,7 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
 
 ---
 
-## 3.5 Key parameters (typical working ranges)
+### 3.5 Key parameters (typical working ranges)
 
 * **Rates & ownership:** `rate_hz=75–100`, `exclusive_mode=true`, `idle_hover=true`, `data_source=2`
 * **Lateral:** `kp_xy=1.2–1.6`, `max_tilt_cmd=0.7–0.8`
@@ -331,7 +331,7 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
 
 ---
 
-## 3.6 How to run (reproducible steps)
+### 3.6 How to run (reproducible steps)
 
 ```bash
 # 1) PX4/Gazebo with ArUco world
@@ -386,7 +386,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 ---
 
-## 3.7 Results (current)
+### 3.7 Results (current)
 
 * **Detection & bridging** stable (debug overlay + MarkerArray consistent).
 * **Guided-search** shortens time to center; ALIGN/DESCEND transitions behave as intended.
@@ -395,7 +395,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 ---
 
-## 3.8 Limitations
+### 3.8 Limitations
 
 * **Altitude calibration:** fixed `hover_throttle` can be off by vehicle/condition; small offsets slow or prevent descent.
 * **FoV at low altitude:** marker may drop out of frame, causing oscillatory SEARCH/ALIGN transitions.
@@ -403,7 +403,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 ---
 
-## 3.9 Improvements (planned)
+### 3.9 Improvements (planned)
 
 * **Auto-hover calibration** (pre-flight sweep to estimate true hover).
 * **Land detector integration** (`/vehicle_land_detected`) to cut outputs at touchdown.
@@ -413,7 +413,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 ---
 
-## 3.10 Troubleshooting (common pitfalls)
+### 3.10 Troubleshooting (common pitfalls)
 
 * `/fmu/out/manual_control_setpoint` stuck at zeros → PX4 not adopting inputs.
 
@@ -422,11 +422,6 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
   * Run controller with `exclusive_mode=true, rate_hz≥75`.
 * Marker briefly visible but no transition → increase `align_enter_visible_dwell` to `0.25–0.35`.
 * Descent stalls near ground → lower `land_throttle_min` by 0.02 steps; confirm notch-down logs.
-
----
-
-
-
 
 
 
