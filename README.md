@@ -214,9 +214,9 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
 ### 2.6 Actuators Configuration 
 
 - ![ACT bef](images/act-bef.jpg)
- *Figure 10: Actuator setup – before configuration*  
+ *Figure 10: Actuator setup – before*  
 - ![ACT aft](images/act-aft.jpg)
- *Figure 11: Actuator setup – before configuration*  
+ *Figure 11: Actuator setup – after the configuration*  
   
 
 ### 2.7 Configuring Power Module
