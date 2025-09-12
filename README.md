@@ -217,9 +217,9 @@ Mount Pixhawk flat at the center of gravity with the arrow pointing forward. Kee
 
 ### 2.5 Sensor Calibration
 Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you to move your vehicle as required for each sensor.
-	•	Compass calibration → rotate drone in all directions.
-	•	Accelerometer calibration → place drone level, nose up, nose down, etc.
-	•	Gyroscope calibration → performed automatically when stationary.
+-	Compass calibration → rotate drone in all directions.
+-	Accelerometer calibration → place drone level, nose up, nose down, etc.
+-	Gyroscope calibration → performed automatically when stationary.
  
  Illustration from Compass Calibration:
 - ![COM calibration](images/com-calibration.jpg)
