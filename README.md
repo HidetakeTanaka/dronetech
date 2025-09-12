@@ -13,20 +13,35 @@ This report serves both as a documentation of our project and as a manual for re
 
 
 ## Table of Contents
-- [Section 1 – Drone Assembly](#section-1--drone-assembly)
-  - [1.1 Components List](#11-components-list)
-  - [1.2 Assembly Process](#12-assembly-process)
-- [Section 2 – Drone Configuration](#section-2--drone-configuration)
-  - [2.1 Pixhawk Overview](#21-pixhawk-overview)
-  - [2.2 Relationship of Pixhawk & PX4](#22-relationship-of-pixhawk--px4)
-  - [2.3 Connecting the Flight Controller](#23-connecting-the-flight-controller)
-  - [2.4 Firmware Setup](#24-firmware-setup)
-  - [2.5 Sensor Calibration](#25-sensor-calibration)
-  - [2.6 Actuators Configuration](#26-sensor-calibration)
-  - [2.7 Parameter Settings](#27-parameter-settings)
-  - [2.8 Final Checks](#28-final-checks)
-- [Section 3 – Drone Programming](#section-3--drone-programming)
-- [Table of Figures](#table-of-figures)
+
+- [Section 1 – Drone Assembly](#section-1--drone-assembly)  
+  - [1.1 Components List](#11-components-list)  
+  - [1.2 Assembly Process](#12-assembly-process)  
+
+- [Section 2 – Drone Configuration](#section-2--drone-configuration)  
+  - [2.1 Pixhawk Overview](#21-pixhawk-overview)  
+  - [2.2 Relationship of Pixhawk & PX4](#22-relationship-of-pixhawk--px4)  
+  - [2.3 Connecting the Flight Controller](#23-connecting-the-flight-controller)  
+  - [2.4 Firmware Setup](#24-firmware-setup)  
+  - [2.5 Sensor Calibration](#25-sensor-calibration)  
+  - [2.6 Actuators Configuration](#26-actuators-configuration)  
+  - [2.7 Configuring Power Module](#27-configuring-power-module)  
+  - [2.8 Parameter Settings](#28-parameter-settings)  
+  - [2.9 Final Checks](#29-final-checks)  
+
+- [Section 3 – Drone Programming](#section-3--drone-programming)  
+  - [3.1 Precision Landing Task Overview](#31-precision-landing-task-overview)  
+  - [3.2 System Architecture (ROS 2 / PX4 Integration)](#32-system-architecture-ros-2--px4-integration)  
+  - [3.3 Mission Logic](#33-mission-logic)  
+  - [3.4 Key Algorithms & Implementation Choices](#34-key-algorithms--implementation-choices)  
+  - [3.5 Key Parameters](#35-key-parameters)  
+  - [3.6 How to Run (Reproducible Steps)](#36-how-to-run-reproducible-steps)  
+  - [3.7 Results](#37-results)  
+  - [3.8 Limitations](#38-limitations)  
+  - [3.9 Improvements (Planned)](#39-improvements-planned)  
+  - [3.10 Troubleshooting](#310-troubleshooting)  
+
+- [Table of Figures](#table-of-figures)  
 
 
 ## Section 1 – Drone Assembly
