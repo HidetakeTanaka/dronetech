@@ -24,6 +24,7 @@ This report serves both as a documentation of our project and as a manual for re
 | ESC (Electronic Speed Controllers)| –                                 | 4        |
 | Top Board                         | –                                 | 1        |
 | Power Distribution Board (PDB)    | –                                 | 1        |
+| Battery                           | LIpo, 4S                          | 1        |       
 | Buzzer                            | Active Buzzer Module              | 1        |
 | Radio Telemetry                   | Telem 02 (RX)                     | 1        |
 | GPS Module                        | –                                 | 1        |
