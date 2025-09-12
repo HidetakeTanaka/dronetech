@@ -214,9 +214,9 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
 ### 2.6 Actuators Configuration 
 
 - ![ACT bef](images/act-bef.jpg)
- *Figure 10: Actuator setup – before*  
+ *Figure 10: Actuator Setup – Before*  
 - ![ACT aft](images/act-aft.jpg)
- *Figure 11: Actuator setup – after the configuration*  
+ *Figure 11: Actuator Setup – After the Configuration*  
   
 
 ### 2.7 Configuring Power Module
@@ -246,31 +246,24 @@ For our project, we primarily relied on the default PX4 settings, which are suff
 
 ## Section 3 – Drone Programming
 
-**Task context.** This section explains the software implementation of the **precision landing** task on an **ArUco marker** using **ROS 2 + PX4**. A complete description of the task is available at *EOLab Drones – Precision Landing Assignment*.
+This section explains the software implementation of the precision landing task on an ArUco marker using ROS 2 + PX4. A complete description of the task is available at EOLab Drones – Precision Landing Assignment.
+We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
+1. **Guided-search** (home toward a just-visible marker),
+2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
 
-### 3.1 Problem & Requirements (software view)
-The objective is to autonomously guide the quadcopter to a **safe, precise touchdown** on a known visual target (ArUco). From a software perspective this entails:
-- Detecting and tracking the marker in camera images.
-- Converting detections into **position/attitude error** in the drone frame.
-- Generating **control commands** to center, descend, and land while handling loss of vision.
-- Ensuring **PX4 accepts our commands** reliably and safely.
+### 3.1 Precision Landing Task Overview
+The precision landing task requires the quadcopter to autonomously execute a controlled touchdown on a predefined visual target, specifically an ArUco marker. The system must detect and track the marker in the onboard camera stream, convert these detections into position and orientation errors in the drone’s body frame, and generate corresponding roll, pitch, yaw, and throttle commands to achieve alignment, descent, and landing. In addition, the implementation must remain robust to temporary loss of visual feedback and ensure that PX4 reliably accepts the externally generated control inputs, overriding manual or QGroundControl commands when required.  
 
-**Design goals:** robust target acquisition, smooth alignment and descent, explicit safety fallbacks, and clear separation between perception, error conversion, and control.
+### 3.2 System Architecture (ROS 2 / PX4 Integration)
+Our implementation follows a modular architecture built around ROS 2 nodes that interface with the PX4 autopilot. The system is divided into three main components: the detector, the bridge, and the controller. This separation ensures clarity in responsibilities and simplifies debugging.
+The detector node processes the onboard camera stream to identify ArUco markers. It subscribes to `/protoflyer/image` and `/protoflyer/camera_info` topics and publishes the detected markers as `/protoflyer/detected_aruco_markers` at approximately 30 Hz, along with a debug visualization image. The bridge node converts the marker detections into usable error metrics relative to the drone’s body frame. It subscribes to marker detections and publishes two key outputs: a visibility flag (`/protoflyer/eolab/precision_landing/visible`) and a three-dimensional error vector (`/protoflyer/eolab/precision_landing/error`). Several parameters, such as `scale`, `flip_z`, and `smooth_n`, were tuned to align the coordinate system and stabilize the output. Finally, the controller node subscribes to the visibility and error topics and publishes control commands (`/protoflyer/fmu/in/manual_control_input`) that PX4 interprets as manual stick inputs. A service interface allows starting or stopping the controller during experiments.
+This modular design allows independent validation of perception, geometry conversion, and control, while maintaining compatibility with the PX4 flight stack through ROS 2–PX4 bridges.  
 
----
 
-### 3.2 Approach & Rationale
-We adopt a three-stage pipeline — **Detector → Bridge → Controller** — with a **finite-state machine (FSM)** for mission logic.
-
-**Why this approach?**
-- **Modularity (ROS 2):** isolates perception, geometry, and control → simpler testing and replacement.
-- **ManualControlSetpoint over full Offboard:** we publish high-rate “stick” inputs so PX4 prioritizes our node over QGC/RC. This avoids common Offboard pitfalls in teaching labs and works reliably on the provided platform.
-- **Guided-search:** the controller gently “homes” toward any glimpse of the marker during search, reducing time-to-acquisition.
-- **Stall-aware descent:** small throttle notches near ground prevent hanging above the pad.
-
----
-
-### 3.3 Architecture (ROS 2 / PX4)
+### 3.3 Mission Logic 
+The landing behavior is governed by a finite-state machine (FSM) with six states: WAIT, SEARCH, ALIGN, DESCEND, FINE_ALIGN, and LAND. Each state represents a distinct phase of the mission, with transitions based on marker visibility and position error thresholds.
+In the SEARCH state, the drone performs yaw scans and small orbit maneuvers until the marker becomes visible. If the marker is detected, a guided-homing strategy biases roll and pitch toward its location, and after a stable dwell period, the system transitions to ALIGN. During ALIGN, lateral proportional control reduces the horizontal error, constrained by a maximum tilt command to prevent instability. Once the horizontal error falls within a coarse threshold, the controller enters DESCEND, applying a throttle value below hover while continuing lateral centering. As the drone approaches the target more closely, it transitions into FINE_ALIGN, which tightens the error thresholds and reduces throttle slightly to ensure accuracy. The final LAND state lowers throttle to a minimum safe value and introduces a stall-aware mechanism: if descent progress stalls, throttle is notched down incrementally until ground contact is achieved. At any stage, if the marker is lost for longer than a defined timeout, the system reverts to SEARCH and commands hover, ensuring safety.
+This FSM design provides structured behavior for the entire landing sequence, balancing robustness to noisy detections with smooth control transitions.
 
 **Nodes & Topics**
 - **Detector** `eolab_precision_landing/detector`  
@@ -293,21 +286,8 @@ We adopt a three-stage pipeline — **Detector → Bridge → Controller** — w
 Lateral: `roll ← +err.x`, `pitch ← -err.z`  
 Altitude: `throttle` around hover using `err.y` (positive = too high)
 
----
 
-### 3.4 Mission Logic (FSM)
-`WAIT → SEARCH → ALIGN → DESCEND → FINE_ALIGN → LAND`
-
-- **SEARCH:** yaw scan + small orbit/spiral. If marker visible → **guided-homing** (proportional roll/pitch toward marker). Visible for `align_dwell` → **ALIGN**.  
-- **ALIGN:** lateral P control with `kp_xy`, limited by `max_tilt_cmd` until within `coarse_align_xy`.  
-- **DESCEND:** apply `descend_throttle` (below hover) while holding lateral center; within `fine_align_xy` (or close altitude) → **FINE_ALIGN**.  
-- **FINE_ALIGN:** tighter lateral bounds, slightly lower throttle.  
-- **LAND:** throttle floors at `land_throttle_min`; lateral softened. A **notch-down** routine reduces throttle if altitude stagnates near ground.  
-- **Safety:** if marker lost for `lost_timeout`, revert to **SEARCH** and command **hover**.
-
----
-
-### 3.5 Key Algorithms & Implementation Choices
+### 3.4 Key Algorithms & Implementation Choices
 
 **A) Exclusive stick ownership (PX4 adoption)**  
 Publish `ManualControlSetpoint` **continuously** at 75–100 Hz with:
@@ -343,93 +323,6 @@ else:
     cmd_y =  orbit_tilt * math.cos(ang)
     cmd_r =  search_yaw_rate
 
-____________________________________________________________________________________________________________________________________________
-## Section 3 – Drone Programming
-
-### 3.1 Overview
-
-This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 - PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
-
-1. **Guided-search** (home toward a just-visible marker),
-2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
-
-We conclude with results, known limitations, and concrete improvements.
-
----
-
-### 3.2 Architecture (ROS 2 / PX4)
-
-**Nodes & topics**
-
-* **Detector** `eolab_precision_landing/detector`
-
-  * Sub: `/protoflyer/image`, `/protoflyer/camera_info`
-  * Pub: `/protoflyer/detected_aruco_markers` (\~30 Hz), `/protoflyer/aruco_debug_image`
-
-* **Bridge** `project_report/marker_to_error`
-
-  * Sub: `/protoflyer/detected_aruco_markers`
-  * Pub:
-    `/protoflyer/eolab/precision_landing/visible` *(std\_msgs/Bool)*,
-    `/protoflyer/eolab/precision_landing/error` *(geometry\_msgs/Vector3, meters)*
-  * Effective params: `scale=0.04`, `flip_z=true`, `forward_axis="z"`, `altitude_axis="y"`, `smooth_n=3`
-
-* **Controller** `project_report/landing_controller`
-
-  * Sub: `/protoflyer/eolab/precision_landing/{visible,error}`, `/protoflyer/fmu/out/vehicle_control_mode`
-  * Pub: `/protoflyer/fmu/in/manual_control_input` *(px4\_msgs/ManualControlSetpoint)*
-  * Srv: `/eolab/landing_controller/start` *(std\_srvs/SetBool)*
-
-**Axis mapping (after the bridge)**
-
-* Lateral: `roll  ← +err.x`, `pitch ← -err.z`
-* Altitude: `throttle` is controlled around hover using `err.y` (positive = “too high”).
-
----
-
-### 3.3 Mission logic (FSM)
-
-`WAIT → SEARCH → ALIGN → DESCEND → FINE_ALIGN → LAND`
-
-* **SEARCH** – Yaw scan + small **orbit/spiral**. If marker becomes visible, **guided-homing** (proportional roll/pitch toward the marker) runs immediately; once visible for `align_dwell` seconds, transition to ALIGN.
-* **ALIGN** – Lateral P control using `kp_xy`, clipped by `max_tilt_cmd` until within `coarse_align_xy`.
-* **DESCEND** – Apply `descend_throttle` (below hover) while maintaining lateral centering; if within `fine_align_xy` (or close in altitude), go to FINE\_ALIGN.
-* **FINE\_ALIGN** – Tight lateral bounds, slightly lower throttle.
-* **LAND** – Use `land_throttle_min` (floor); lateral commands softened. A **notch-down** routine reduces throttle further if altitude progress stalls near ground.
-
-Safety: if the marker is lost longer than `lost_timeout`, the controller reverts to **SEARCH** and commands **hover**.
-
----
-
-### 3.4 Implementation highlights
-
-#### A) Exclusive stick ownership (PX4 acceptance)
-
-To prevent QGC/RC from overriding descent, the controller **always publishes** (even when not engaged, it can send hover if `idle_hover=true`) with:
-
-* `data_source = MAVLINK_0 (2)`
-* `sticks_moving = true`
-* High rate: `rate_hz = 75–100`
-
-This reliably makes `/fmu/out/manual_control_setpoint` follow our `/fmu/in/manual_control_input`.
-
-**Snippet (publishing sticks)**
-
-```py
-# 0..1 -> [-1..1] mapping for PX4 throttle stick
-throttle_px4 = 2.0 * clamp(cmd_z, 0.0, 1.0) - 1.0
-
-msg = ManualControlSetpoint()
-msg.pitch    = clamp(cmd_x, -1.0, 1.0)
-msg.roll     = clamp(cmd_y, -1.0, 1.0)
-msg.yaw      = clamp(cmd_r, -1.0, 1.0)
-msg.throttle = clamp(throttle_px4, -1.0, 1.0)
-
-msg.valid = True
-msg.data_source = 2          # MAVLINK_0
-msg.sticks_moving = True     # keep ownership
-pub.publish(msg)
-```
 
 #### B) Guided-search (snappier acquisition)
 
@@ -465,8 +358,6 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
     cmd_z = descend_throttle
 ```
 
----
-
 ### 3.5 Key parameters (typical working ranges)
 
 * **Rates & ownership:** `rate_hz=75–100`, `exclusive_mode=true`, `idle_hover=true`, `data_source=2`
@@ -479,8 +370,6 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
 * **Search & homing:** `search_mode=orbit`, `search_orbit_tilt≈0.16`, `search_orbit_hz≈0.20`,
   `search_yaw_rate≈0.6`, `search_homing_gain≈0.9`, `search_yaw_kp≈0.6`
 * **Bridge:** `scale=0.04`, `flip_z=true`, `forward_axis="z"`, `altitude_axis="y"`, `smooth_n=3`
-
----
 
 ### 3.6 How to run (reproducible steps)
 
@@ -535,24 +424,18 @@ timeout 2s ros2 topic echo /protoflyer/fmu/out/vehicle_control_mode \
 ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 ```
 
----
-
 ### 3.7 Results (current)
 
-* **Detection & bridging** stable (debug overlay + MarkerArray consistent).
-* **Guided-search** shortens time to center; ALIGN/DESCEND transitions behave as intended.
-* With **exclusive mode**, PX4 **accepts** our ManualControlSetpoint; QGC/RC no longer cancels descent.
-* **Touchdown** is *intermittent* and depends on hover/descend/land throttle calibration and visibility near ground.
-
----
+* Detection & bridging stable (debug overlay + MarkerArray consistent).
+* Guided-search shortens time to center; ALIGN/DESCEND transitions behave as intended.
+* With exclusive mode, PX4 accepts our ManualControlSetpoint; QGC/RC no longer cancels descent.
+* Touchdown is intermittent and depends on hover/descend/land throttle calibration and visibility near ground.
 
 ### 3.8 Limitations
 
 * **Altitude calibration:** fixed `hover_throttle` can be off by vehicle/condition; small offsets slow or prevent descent.
 * **FoV at low altitude:** marker may drop out of frame, causing oscillatory SEARCH/ALIGN transitions.
 * **Aggressiveness vs noise:** larger `kp_xy`/tilt speeds up centering but can amplify jitter on noisy detections.
-
----
 
 ### 3.9 Improvements (planned)
 
@@ -561,8 +444,6 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 * **Blended altitude P-term** (use `kp_z` around hover on top of fixed descend).
 * **Adaptive smoothing** in the bridge (`smooth_n` 1–3) based on detection jitter.
 * **Robust visibility gating** at very low altitude (require small dwell before LAND).
-
----
 
 ### 3.10 Troubleshooting (common pitfalls)
 
@@ -588,5 +469,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 | 7      | Firmware update in QGroundControl            |
 | 8      | Airframe Setup                               |
 | 9      | Compass Calibration                          |
-| 10     | Power Module Configuration                   |
+| 10     | Actuator Setup - Before                      |
+| 11     | Actuator Setup – After the Configuration*    |
+| 12     | Power Module Configuration                   |
 
