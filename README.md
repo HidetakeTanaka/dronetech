@@ -202,7 +202,8 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
   
 
 ### 2.6 Configuring Power Module
-- ![POW con](images/px4- firmware.jpg)
+Enter the specifications of the battery you will use. 
+- ![POW con](images/pow-con.jpg)
  *Figure 10: Power Configuration*
 
 
