@@ -162,11 +162,8 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - ![USB pixhawk](images/usb-pixhawk.jpg)
 
 ### 2.5 Sensor Calibration
-- Accelerometer calibration  
-- Gyroscope calibration  
-- Magnetometer (compass) calibration  
-- Radio/RC calibration  
-- ESC calibration  
+To calibrate the sensors, follow the instruction for each of them starting from the compass calibration to the following sensors, the software will guide you. 
+ - ![Com calibration](images/com-calibration.jpg)
 
 ### 2.6 Configuring Peripheral Devices
 - GPS module  
