@@ -41,7 +41,10 @@ Read the instructions carefully before performing each step.
   - **Red wire → + (positive terminal)**  
   - **Black wire → – (negative terminal)**  
 -  Double-check polarity before soldering.  
--  Be mindful: soldering tools become very hot — make sure you are comfortable with the process before starting.  
+-  Be mindful: soldering tools become very hot — make sure you are comfortable with the process before starting.
+-  Note: In this figure, the board is not our PDB board.
+-  ![SOL pol](images/sol-pol.JPG)
+-  *Figure 1: Soldering the ESC power cables*
 
 #### Step 2 – Mount the ESCs
 - Secure each ESC along the inside of the frame arms using plastic clamps or zip ties.  
