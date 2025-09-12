@@ -177,14 +177,13 @@ This combination makes Pixhawk 2.4.8 a robust platform for both learning and pra
 ### 2.3 Connecting the Flight Controller
 Connecting the flight controller turns the airframe into a controllable system: you’ll power the Pixhawk from the PDB, route ESC signal leads to the correct outputs, attach core peripherals (GPS, telemetry, buzzer), and verify orientation/safety before any tests.
 
-- **Power the Pixhawk (via power module/PDB):** Connect the power module from the battery/PDB to the **POWER** port on Pixhawk. Verify the controller powers up (status LEDs) and delivers a stable ~5 V.  
-- **ESC signals to MAIN OUT 1–4:** Plug each ESC’s **signal/ground** into **MAIN OUT 1–4** according to your motor layout (Motor 1→OUT1, Motor 2→OUT2, etc.). Ensure the signal pin (white/yellow) aligns with the signal row and ground (black/brown) with ground.  
-- **Peripherals to the correct ports:**  
-  - **GPS/Compass** → **GPS** (and I²C if using an external compass)  
-  - **Telemetry radio** → **TELEM1**  
-  - **Buzzer** → **BUZZ**  
-  - (Optional) **Safety switch** → **SWITCH**, additional sensors → **I²C/CAN/SPI**  
-- **Safety & orientation:** Mount Pixhawk flat at the center of gravity with the **arrow pointing forward**. Keep **propellers off**, secure/strain-relieve all cables, and ensure no wires can contact the motors or props.
+- Power the Pixhawk (via power module/PDB): Connect the power module from the battery/PDB to the POWER port on Pixhawk. Verify the controller powers up (status LEDs) and delivers a stable ~5 V.  
+- ESC signals to MAIN OUT 1–4:Plug each ESC’s signal/ground intoMAIN OUT 1–4 according to your motor layout (Motor 1→OUT1, Motor 2→OUT2, etc.).  
+- Peripherals to the correct ports:  
+  - GPS/Compass → GPS (and I²C if using an external compass)  
+  - Telemetry radio → TELEM1  
+  - Buzzer → BUZZ 
+Mount Pixhawk flat at the center of gravity with the arrow pointing forward. Keep propellers off, secure/strain-relieve all cables, and ensure no wires can contact the motors or props.
 
 ### 2.4 Firmware Setup
 - Install QGroundControl and open it.  
@@ -216,7 +215,7 @@ Sensor Setup is used to calibrate the sensors within your vehicle.To calibrate t
 ### 2.6 Actuators Configuration 
 
 - ![ACT bef](images/act-bef.jpg)
- **Figure 10: Actuator setup – before configuration*  
+ *Figure 10: Actuator setup – before configuration*  
 - ![ACT aft](images/act-aft.jpg)
  *Figure 11: Actuator setup – before configuration*  
   
@@ -228,9 +227,14 @@ Enter the specifications of the battery you will use.
 
 
 ### 2.8 Parameter Settings
-- Key parameters for stable flight  
-- Example of non-standard configurations  
-- Saving and restoring parameter files  
+
+Proper parameter settings ensure the quadcopter can fly safely and respond correctly to commands. Parameters define how the flight controller interprets sensor data and generates motor outputs, and even small adjustments can significantly impact performance.
+- PID gains (roll, pitch, yaw): These control how aggressively the drone corrects its orientation. In our build, we used the default PX4 values, as they are tuned for a generic quadcopter frame.  
+- Battery failsafe voltage: This parameter triggers a warning or return-to-launch when the battery drops below a safe level, preventing mid-air power loss.  
+- Return-to-launch altitude: Defines how high the drone climbs before returning to the home point, avoiding obstacles during automatic return.  
+- Non-standard tweaks: No custom changes were applied beyond defaults, but the framework allows adjustment of parameters such as sensor filtering, GPS accuracy thresholds, and logging rates if required.  
+
+For our project, we primarily relied on the default PX4 settings, which are sufficient for stable flight in a controlled lab environment.    
 
 ### 2.9 Final Checks
 - Verifying all connections  
