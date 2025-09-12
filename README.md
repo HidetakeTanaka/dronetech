@@ -262,8 +262,6 @@ For our project, we primarily relied on the default PX4 settings, which are suff
 
 # Section 3 – Drone Programming
 
----
-
 ## 3.1 Overview
 
 This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 ↔ PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
