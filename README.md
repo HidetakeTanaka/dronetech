@@ -70,8 +70,6 @@ Read the instructions carefully before performing each step.
 - Secure the four landing legs to the bottom board using screws.  
 - Ensure they are firmly tightened and positioned evenly for stable landings.  
 - Double-check that no wires are trapped between the legs and the frame.
-- ![MOT pos](im ages/mot-pos.PNG)
-- *Figure 3: Motors Positioning*
 
 #### Step 6 – Install the Companion Computer
 - Place the companion computer between the boards.
@@ -90,13 +88,15 @@ Read the instructions carefully before performing each step.
 - Connect the ESC **signal wires** to **MAIN OUT 1–4** on the Pixhawk, in this case the side you plug each cable matters, but pins port is designed in a way that doesn't allow you to make a mistake. 
 - Make sure each ESC is plugged into the **correct output channel** that corresponds to its motor position in the quadcopter layout.    
 - ![CHAN wire](images/chan-wire.JPG)  
-*Figure Z: ESC to Pixhawk wiring example.*
+*Figure 4: ESC to Pixhawk wiring*
 
 #### Step 10 – Connect Peripherals
 - **GPS module** → GPS port, I²C
 - **Telemetry radio** → TELEM1   
 - **Buzzer** → BUZZ port    
-- Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement. 
+- Position devices so that no cables obstruct propellers. We 3D-printed a GPS mount for improved placement.
+- - ![CHAN wire](im ages/chan-wire.JPG)  
+*Figure 4: Connection of peripherals with the Flight Controller*
 
 #### Step 11 – Final Checks
 - Verify all screws are secure.  
