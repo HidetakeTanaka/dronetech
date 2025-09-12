@@ -138,7 +138,6 @@ The **Pixhawk** is an open-hardware flight controller that serves as the **“br
 - Thickness: 15.5mm (0.61")
 - Length: 81.5mm (3.21")
 
-
 ### 2.2 Relationship of Pixhawk & PX4
 The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
 - A Unix/Linux-like programming environment  
@@ -147,8 +146,6 @@ The Pixhawk, running the **PX4 autopilot stack**, provides several advantages:
 - A custom PX4 driver layer ensuring **precise timing across processes**  
 
 This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and **practical drone applications**, enabling us to configure the drone for reliable flight and prepare it for the **precision landing assignment**. 
-
-  
 
 ### 2.3 Connecting the Flight Controller
 - Wiring and power connections  
@@ -160,11 +157,9 @@ This combination makes Pixhawk 2.4.8 a robust platform for both **learning** and
 - Go to the **Firmware** section and follow the on-screen instructions.  
 - Connect your computer to the **Pixhawk** using a USB cable.  
 - Update the firmware by selecting **PX4 Pro v1.16.0 – Stable Release**.
+- Choose the type of your vehicle - quadcopter.
 - ![PX4 firmware](images/px4-firmware.jpg)
-- ![USB pixhawk](images/usb-pixhawk.jpg)
-
-3. ![Choosing PX4 Pro firmware](images/03-firmware-selection.JPG)  
-   *Figure: Choosing PX4 Pro v1.16.0 (Stable Release) during setup.*      
+- ![USB pixhawk](images/usb-pixhawk.jpg)    
 
 ### 2.5 Sensor Calibration
 - Accelerometer calibration  
