@@ -246,6 +246,106 @@ For our project, we primarily relied on the default PX4 settings, which are suff
 
 ## Section 3 – Drone Programming
 
+**Task context.** This section explains the software implementation of the **precision landing** task on an **ArUco marker** using **ROS 2 + PX4**. A complete description of the task is available at *EOLab Drones – Precision Landing Assignment*.
+
+### 3.1 Problem & Requirements (software view)
+The objective is to autonomously guide the quadcopter to a **safe, precise touchdown** on a known visual target (ArUco). From a software perspective this entails:
+- Detecting and tracking the marker in camera images.
+- Converting detections into **position/attitude error** in the drone frame.
+- Generating **control commands** to center, descend, and land while handling loss of vision.
+- Ensuring **PX4 accepts our commands** reliably and safely.
+
+**Design goals:** robust target acquisition, smooth alignment and descent, explicit safety fallbacks, and clear separation between perception, error conversion, and control.
+
+---
+
+### 3.2 Approach & Rationale
+We adopt a three-stage pipeline — **Detector → Bridge → Controller** — with a **finite-state machine (FSM)** for mission logic.
+
+**Why this approach?**
+- **Modularity (ROS 2):** isolates perception, geometry, and control → simpler testing and replacement.
+- **ManualControlSetpoint over full Offboard:** we publish high-rate “stick” inputs so PX4 prioritizes our node over QGC/RC. This avoids common Offboard pitfalls in teaching labs and works reliably on the provided platform.
+- **Guided-search:** the controller gently “homes” toward any glimpse of the marker during search, reducing time-to-acquisition.
+- **Stall-aware descent:** small throttle notches near ground prevent hanging above the pad.
+
+---
+
+### 3.3 Architecture (ROS 2 / PX4)
+
+**Nodes & Topics**
+- **Detector** `eolab_precision_landing/detector`  
+  Sub: `/protoflyer/image`, `/protoflyer/camera_info`  
+  Pub: `/protoflyer/detected_aruco_markers` (~30 Hz), `/protoflyer/aruco_debug_image`
+
+- **Bridge** `project_report/marker_to_error`  
+  Sub: `/protoflyer/detected_aruco_markers`  
+  Pub:  
+  `/protoflyer/eolab/precision_landing/visible` *(std_msgs/Bool)*,  
+  `/protoflyer/eolab/precision_landing/error` *(geometry_msgs/Vector3; m)*  
+  Params (typical): `scale=0.04`, `flip_z=true`, `forward_axis="z"`, `altitude_axis="y"`, `smooth_n=3`
+
+- **Controller** `project_report/landing_controller`  
+  Sub: `/protoflyer/eolab/precision_landing/{visible,error}`, `/protoflyer/fmu/out/vehicle_control_mode`  
+  Pub: `/protoflyer/fmu/in/manual_control_input` *(px4_msgs/ManualControlSetpoint)*  
+  Srv: `/eolab/landing_controller/start` *(std_srvs/SetBool)*
+
+**Axis mapping after Bridge**  
+Lateral: `roll ← +err.x`, `pitch ← -err.z`  
+Altitude: `throttle` around hover using `err.y` (positive = too high)
+
+---
+
+### 3.4 Mission Logic (FSM)
+`WAIT → SEARCH → ALIGN → DESCEND → FINE_ALIGN → LAND`
+
+- **SEARCH:** yaw scan + small orbit/spiral. If marker visible → **guided-homing** (proportional roll/pitch toward marker). Visible for `align_dwell` → **ALIGN**.  
+- **ALIGN:** lateral P control with `kp_xy`, limited by `max_tilt_cmd` until within `coarse_align_xy`.  
+- **DESCEND:** apply `descend_throttle` (below hover) while holding lateral center; within `fine_align_xy` (or close altitude) → **FINE_ALIGN**.  
+- **FINE_ALIGN:** tighter lateral bounds, slightly lower throttle.  
+- **LAND:** throttle floors at `land_throttle_min`; lateral softened. A **notch-down** routine reduces throttle if altitude stagnates near ground.  
+- **Safety:** if marker lost for `lost_timeout`, revert to **SEARCH** and command **hover**.
+
+---
+
+### 3.5 Key Algorithms & Implementation Choices
+
+**A) Exclusive stick ownership (PX4 adoption)**  
+Publish `ManualControlSetpoint` **continuously** at 75–100 Hz with:
+- `data_source = MAVLINK_0 (2)`, `sticks_moving = true`, `valid = true`
+- Optional `idle_hover=true` to hold hover when disengaged
+
+```py
+# map internal 0..1 throttle to PX4 range [-1..1]
+thr_px4 = 2.0 * clamp(cmd_z, 0.0, 1.0) - 1.0
+msg = ManualControlSetpoint(pitch=clamp(cmd_x,-1,1),
+                            roll=clamp(cmd_y,-1,1),
+                            yaw=clamp(cmd_r,-1,1),
+                            throttle=clamp(thr_px4,-1,1),
+                            valid=True, data_source=2, sticks_moving=True)
+pub.publish(msg)
+
+**B) Guided-search (faster acquisition)**  
+While searching, any brief visibility immediately biases roll/pitch toward the marker and slightly recenters yaw.
+
+```python
+# Guided-search logic
+if visible:
+    cmd_x = clamp(kp_xy * homing_gain * (-err.z), -max_tilt, max_tilt)
+    cmd_y = clamp(kp_xy * homing_gain * ( err.x), -max_tilt, max_tilt)
+    cmd_r = clamp(search_yaw_kp * (-err.x), -max_yaw, max_yaw)
+
+    if visible_for >= align_dwell:
+        transition(ALIGN)
+else:
+    # Orbit scan pattern
+    ang = 2 * math.pi * orbit_hz * t
+    cmd_x = -orbit_tilt * math.sin(ang)
+    cmd_y =  orbit_tilt * math.cos(ang)
+    cmd_r =  search_yaw_rate
+
+____________________________________________________________________________________________________________________________________________
+## Section 3 – Drone Programming
+
 ### 3.1 Overview
 
 This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 - PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
