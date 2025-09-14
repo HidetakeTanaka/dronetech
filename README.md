@@ -502,17 +502,23 @@ ros2 run project_report landing_controller --ros-args \
 **5) Engage autonomy:**
 
 ```bash
+cd ~/eolab_ws
+source install/setup.bash
+
 # Engage (start autonomy)
 ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: true}"
 
 # Disengage (stop autonomy)
-# ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: false}"
+ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: false}"
 ```
 
 
 **6) Quick verification: Monitoring (separate terminals):** 
 
 ```bash
+cd ~/eolab_ws
+source install/setup.bash
+
 # Bridge outputs
 ros2 topic echo /protoflyer/eolab/precision_landing/visible
 ros2 topic echo /protoflyer/eolab/precision_landing/error
