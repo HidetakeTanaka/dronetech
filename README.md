@@ -281,9 +281,10 @@ For our project, we primarily relied on the default PX4 settings, which are suff
 This section explains the software implementation of **precision landing on an ArUco marker** using **ROS 2 ↔ PX4**. We describe the topic pipeline (detector → bridge → controller), the **finite-state machine (FSM)** controller, and two key design choices added during integration:
 
 1. **Guided-search** (home toward a just-visible marker),
-2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so PX4 selects our inputs over QGC/RC).
+2. **Exclusive stick ownership** (our node publishes ManualControlSetpoint continuously so that PX4 selects our inputs over QGC/RC).
 
 We conclude with results, known limitations, and concrete improvements.
+
 
 ---
 
@@ -314,6 +315,7 @@ We conclude with results, known limitations, and concrete improvements.
 
 * Lateral: `roll  ← +err.x`, `pitch ← -err.z`
 * Altitude: `throttle` is controlled around hover using `err.y` (positive = “too high”).
+
 
 ---
 
@@ -395,9 +397,19 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
     cmd_z = descend_throttle
 ```
 
+
 ---
 
 ## 3.5 Key parameters (typical working ranges)
+
+### Additional knobs for transitions & vertical lock
+
+To slow down state transitions and avoid premature descent...:
+
+- `align_enter_visible_dwell` — minimum continuous-visibility time to go **SEARCH → ALIGN**.
+- `coarse_dwell` / `fine_dwell` — additional dwell before **ALIGN → DESCEND** and **DESCEND → FINE_ALIGN**.
+- `yaw_freeze_xy` — freeze yaw near the center to prevent sideways drift while correcting XY.
+- *(Optional, if your controller version implements it)* `vertical_lock_xy` and `vertical_lock_dwell` — only permit vertical descent when XY is within a tight radius for a short dwell; otherwise keep focusing on lateral centering.
 
 * **Rates & ownership:** `rate_hz=75–100`, `exclusive_mode=true`, `idle_hover=true`, `data_source=2`
 * **Lateral:** `kp_xy=1.2–1.6`, `max_tilt_cmd=0.7–0.8`
@@ -414,73 +426,136 @@ if abs(err.y - last_alt_err) < 0.01 and stalled_for > 0.8:  # <1 cm in 0.8 s
 
 ## 3.6 How to run (reproducible steps)
 
+### SAFE mode (search-timeout RTL)
+
+If the controller is engaged but the marker is **never detected** within a timeout window(), the node enters **SAFE** and commands **Return-to-Launch (RTL)**. Set:
+
+- `search_timeout_s` — seconds from *engage* until SAFE triggers if marker never appears (e.g., `10.0`).
+- `safe_action` — what to do on SAFE: `rtl` (default), `hover`, or `disengage`.
+
+Implementation details:
+- Sends `VEHICLE_CMD_NAV_RETURN_TO_LAUNCH` (RTL) on `/protoflyer/fmu/in/vehicle_command` for ~1.5 s at ~10 Hz to improve reliability.
+- If AUTO mode is not accepted within ~2 s, it **falls back** to `VEHICLE_CMD_NAV_LAND` (AUTO.LAND), which is useful indoors or when home is invalid.
+- You can override the vehicle-command topic with param `cmd_topic` if your namespace differs.
+
+### Quick-start commands (drop-in)
+
+> Paste these into separate terminals once PX4 and your simulation/world are running!
+
+** 1) PX4/Gazebo with ArUco world (start first)** :
+
 ```bash
-# 1) PX4/Gazebo with ArUco world
+cd ~/eolab_ws
+source install/setup.bash
 ros2 launch eolab_bringup start.launch.py world:=aruco
+```
 
-# 2) ArUco detector
+
+** 2) ArUco detector** :
+
+```bash
+cd ~/eolab_ws
+source install/setup.bash
 ros2 run eolab_precision_landing detector --ros-args -r __ns:=/protoflyer
+```
 
-# 3) Vision→error bridge (fast response)
+
+** 3) Bridge** (`project_report/marker_to_error`):
+
+```bash
+cd ~/eolab_ws
+source install/setup.bash
 ros2 run project_report marker_to_error --ros-args \
   -p markers_topic:=/protoflyer/detected_aruco_markers \
   -p visible_topic:=/protoflyer/eolab/precision_landing/visible \
   -p error_topic:=/protoflyer/eolab/precision_landing/error \
   -p scale:=0.04 -p flip_z:=true \
-  -p 'forward_axis:="z"' -p 'altitude_axis:="y"' \
-  -p smooth_n:=3
-
-# 4) Controller (exclusive ownership + guided-search)
-ros2 run project_report landing_controller --ros-args \
-  -p exclusive_mode:=true -p idle_hover:=true -p data_source:=2 \
-  -p rate_hz:=100 \
-  -p mapping_mode:=sm \
-  -p search_mode:=orbit -p search_orbit_tilt:=0.16 -p search_orbit_hz:=0.20 \
-  -p search_yaw_rate:=0.6 -p search_homing_gain:=0.9 -p search_yaw_kp:=0.6 \
-  -p kp_xy:=1.4 -p max_tilt_cmd:=0.7 \
-  -p align_enter_visible_dwell:=0.2 -p coarse_dwell:=0.3 -p fine_dwell:=0.3 \
-  -p descend_throttle:=0.34 -p land_throttle_min:=0.22 \
-  -p fine_align_xy:=0.12 -p land_z_thresh:=0.16 \
-  -r /eolab/precision_landing/visible:=/protoflyer/eolab/precision_landing/visible \
-  -r /eolab/precision_landing/error:=/protoflyer/eolab/precision_landing/error
-
-# 5) Engage autonomy
-ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: true}"
+  -p forward_axis:='"z"' -p altitude_axis:='"y"' \
+  -p smooth_n:=5 -p publish_rate_hz:=30.0 -p stale_timeout_s:=0.6
 ```
 
-**Quick verification (separate terminals)**
+
+** 4) Controller** (`project_report/landing_controller`):
 
 ```bash
-# Our output (should be non-zero; negative throttle in DESCEND/LAND)
-ros2 topic echo /protoflyer/fmu/in/manual_control_input | egrep 'roll:|pitch:|yaw:|throttle:'
+cd ~/eolab_ws
+source install/setup.bash
+ros2 run project_report landing_controller --ros-args \
+  -p mapping_mode:=sm -p rate_hz:=100.0 \
+  -p kp_xy:=1.2 -p kp_yaw:=0.6 \
+  -p yaw_freeze_xy:=0.10 \
+  -p max_tilt_cmd:=0.60 -p max_yaw_rate:=0.25 \
+  -p hover_throttle:=0.55 -p descend_throttle:=0.43 -p land_throttle_min:=0.38 \
+  -p coarse_align_xy:=0.30 -p fine_align_xy:=0.12 \
+  -p land_z_thresh:=0.50 -p use_z_gate:=false \
+  -p align_enter_visible_dwell:=0.10 -p coarse_dwell:=0.25 -p fine_dwell:=0.25 \
+  -p vertical_lock_xy:=0.07 -p vertical_lock_dwell:=0.15 \
+  -p lost_timeout:=1.2 -p lost_grace_s:=1.2 \
+  -p search_mode:=orbit -p search_orbit_hz:=0.05 -p search_orbit_amp:=0.25 \
+  -p search_yaw_rate:=0.25 \
+  -p search_timeout_s:=10.0 -p safe_action:=rtl \
+  -r /eolab/precision_landing/visible:=/protoflyer/eolab/precision_landing/visible \
+  -r /eolab/precision_landing/error:=/protoflyer/eolab/precision_landing/error
+```
 
-# PX4 adoption (should follow /in)
+
+**# 5) Engage autonomy**: 
+
+```bash
+# Engage (start autonomy)
+ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: true}"
+
+# Disengage (stop autonomy)
+# ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: false}"
+```
+
+
+** 6) Quick verification: Monitoring (separate terminals)**: 
+
+```bash
+# Bridge outputs
+ros2 topic echo /protoflyer/eolab/precision_landing/visible
+ros2 topic echo /protoflyer/eolab/precision_landing/error
+
+# MCP input and PX4 adoption
+ros2 topic echo /protoflyer/fmu/in/manual_control_input | egrep 'roll:|pitch:|yaw:|throttle:'
 ros2 topic echo /protoflyer/fmu/out/manual_control_setpoint | egrep 'roll:|pitch:|yaw:|throttle:'
 
-# Flight mode flags (Manual/POSCTL expected)
-timeout 2s ros2 topic echo /protoflyer/fmu/out/vehicle_control_mode \
-| egrep 'flag_control_manual_enabled|flag_control_auto_enabled|flag_control_offboard_enabled'
+# Flight mode flags (after SAFE/RTL, expect auto=true)
+ros2 topic echo /protoflyer/fmu/out/vehicle_control_mode | egrep 'manual|auto|offboard'
 
-# Altitude trend (z should move steadily during descent)
+# Altitude trend (confirm descent)
 ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 ```
+
 
 ---
 
 ## 3.7 Results (current)
 
+### Flight scenarios (sim)
+
+1) **Directly above the marker, then engage** → The drone aligned and descended straight down onto the tag (LAND succeeded).
+   
+2) **Offset but marker visible, then engage** → The drone performed a guided search around the marker (orbit-like “petal” pattern) before tightening in and beginning descent. ![Drone test02 with "petal" pattern](images/dronetest02.png)
+
+3) **Far from the marker** → The marker was not found within the timeout window, SAFE triggered, and the vehicle executed RTL (or fallback LAND depending on environment/config).
+
 * **Detection & bridging** stable (debug overlay + MarkerArray consistent).
 * **Guided-search** shortens time to center; ALIGN/DESCEND transitions behave as intended.
 * With **exclusive mode**, PX4 **accepts** our ManualControlSetpoint; QGC/RC no longer cancels descent.
 * **Touchdown** is *intermittent* and depends on hover/descend/land throttle calibration and visibility near ground.
+* Our flight simulation can be viewed from this link: [Video](<https://youtu.be/ko2bprU4g4M>)
 
 ---
 
 ## 3.8 Limitations
 
-* **Altitude calibration:** fixed `hover_throttle` can be off by vehicle/condition; small offsets slow or prevent descent.
-* **FoV at low altitude:** marker may drop out of frame, causing oscillatory SEARCH/ALIGN transitions.
-* **Aggressiveness vs noise:** larger `kp_xy`/tilt speeds up centering but can amplify jitter on noisy detections.
+* **Auto-hover calibration** (pre-flight sweep to estimate true hover).
+* **Land detector integration** (`/vehicle_land_detected`) to cut outputs at touchdown.
+* **Blended altitude P-term** (use `kp_z` around hover on top of fixed descend).
+* **Adaptive smoothing** in the bridge (`smooth_n` 1–3) based on detection jitter.
+* **Robust visibility gating** at very low altitude (require small dwell before LAND).
 
 ---
 
@@ -495,6 +570,11 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 ---
 
 ## 3.10 Troubleshooting (common pitfalls)
+
+**SAFE triggers but vehicle does not return**  
+- Verify the vehicle-command topic (`/protoflyer/fmu/in/vehicle_command`) matches your setup (`cmd_topic` param can override).
+- Ensure AUTO missions are permitted and *RTL* is allowed in your environment (GPS/home valid, no geofence violation).  
+- The controller resends RTL for a brief window and then falls back to **AUTO.LAND** if AUTO is not accepted; check logs to confirm the fallback engaged.
 
 * `/fmu/out/manual_control_setpoint` stuck at zeros → PX4 not adopting inputs.
 
@@ -527,4 +607,5 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 | 10     | Actuator Setup - Before                      |
 | 11     | Actuator Setup – After the Configuration*    |
 | 12     | Power Module Configuration                   |
+| 13     | Drone test02 with "petal" pattern            |
 
