@@ -442,7 +442,7 @@ Implementation details:
 
 > Paste these into separate terminals once PX4 and your simulation/world are running!
 
-** 1) PX4/Gazebo with ArUco world (start first)** :
+**1) PX4/Gazebo with ArUco world (start first) :**
 
 ```bash
 cd ~/eolab_ws
@@ -451,7 +451,7 @@ ros2 launch eolab_bringup start.launch.py world:=aruco
 ```
 
 
-** 2) ArUco detector** :
+**2) ArUco detector :**
 
 ```bash
 cd ~/eolab_ws
@@ -460,7 +460,7 @@ ros2 run eolab_precision_landing detector --ros-args -r __ns:=/protoflyer
 ```
 
 
-** 3) Bridge** (`project_report/marker_to_error`):
+**3) Bridge (`project_report/marker_to_error`):**
 
 ```bash
 cd ~/eolab_ws
@@ -475,7 +475,7 @@ ros2 run project_report marker_to_error --ros-args \
 ```
 
 
-** 4) Controller** (`project_report/landing_controller`):
+**4) Controller (`project_report/landing_controller`):**
 
 ```bash
 cd ~/eolab_ws
@@ -499,7 +499,7 @@ ros2 run project_report landing_controller --ros-args \
 ```
 
 
-**# 5) Engage autonomy**: 
+**5) Engage autonomy:**
 
 ```bash
 # Engage (start autonomy)
@@ -510,7 +510,7 @@ ros2 service call /eolab/landing_controller/start std_srvs/srv/SetBool "{data: t
 ```
 
 
-** 6) Quick verification: Monitoring (separate terminals)**: 
+**6) Quick verification: Monitoring (separate terminals):** 
 
 ```bash
 # Bridge outputs
