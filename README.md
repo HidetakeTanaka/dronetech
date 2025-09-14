@@ -543,7 +543,7 @@ ros2 topic echo /protoflyer/fmu/out/vehicle_local_position | egrep 'z:|vz:'
 
 1) **Directly above the marker, then engage** → The drone aligned and descended straight down onto the tag (LAND succeeded).
    
-2) **Offset but marker visible, then engage** → The drone performed a guided search around the marker (orbit-like “petal” pattern) before tightening in and beginning descent. ![Drone test02 with "petal" pattern](images/dronetest02.png)
+2) **Offset but marker visible, then engage** → The drone performed a guided search around the marker (orbit-like “petal” pattern) before tightening in and beginning descent. ![_Figure 13: Drone test02 with "petal" pattern_](images/dronetest02.png) 
 
 3) **Far from the marker** → The marker was not found within the timeout window, SAFE triggered, and the vehicle executed RTL (or fallback LAND depending on environment/config).
 
