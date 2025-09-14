@@ -1,3 +1,18 @@
+# Hochschule Rhein-Waal  
+**Course:** Drone Technology and Application  
+
+---
+
+**Report**  
+
+**Authors:**  
+- Fatjona Krasniqi  
+- Hidetake Tanaka  
+
+**Semester:** SS2025  
+
+
+
 # Drone Technology and Application SS2025
 
 Unmanned Aerial Vehicles (UAVs), commonly known as drones, are increasingly used in research, industry, and education due to their versatility in tasks such as aerial mapping, inspection, and autonomous navigation. In the academic setting, building and programming drones offers students an opportunity to bridge theoretical knowledge with hands-on engineering practice.
